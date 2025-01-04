@@ -15,9 +15,7 @@
 /* 스크롤 차단 */
 .no-scroll {
   overflow: hidden !important; /* 모든 스크롤 차단 */
-  height: 100dvh; /* 모바일에서 보이는 화면 높이 */
   position: fixed; /* 화면 고정 */
-  width: 100vw; /* 가로폭 고정 */
   top: 0;
   left: 0;
   touch-action: none; /* 터치 스크롤 차단 */
@@ -26,6 +24,7 @@
   display: flex; /* Flexbox 활성화 */
   justify-content: center; /* 가로축 중앙 정렬 */
   align-items: center; /* 세로축 중앙 정렬 */
+  flex-direction: column; /* 세로 방향으로 콘텐츠 배치 */
 }
 
 body {
