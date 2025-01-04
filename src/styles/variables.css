@@ -1,0 +1,24 @@
+:root {
+    /* 색상 변수 */
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+
+    /* 배경 및 텍스트 색상 */
+    --background-color: #f9f9f9;
+    --text-color: #333;
+
+    /* 폰트 크기 */
+    --font-size-small: 0.875rem;
+    --font-size-medium: 1rem;
+    --font-size-large: 1.25rem;
+
+    /* 여백 및 간격 */
+    --spacing-small: 8px;
+    --spacing-medium: 16px;
+    --spacing-large: 24px;
+
+    /* 기타 */
+    --border-radius: 5px;
+}

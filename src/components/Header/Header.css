@@ -1,0 +1,59 @@
+.header p, .header div {
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+
+/* 공통 애니메이션 */
+.fade-in {
+    opacity: 0;
+    transition: opacity 1.2s ease;
+}
+
+.fade-in.visible {
+    opacity: 1;
+}
+
+/* 텍스트 스타일 */
+.small-text {
+    font-size: 1.2rem;
+    font-weight: 500;
+    line-height: 1.2;
+    color: #8a8a8a;
+    text-align: center;
+}
+
+.large-text {
+    font-size: 2.7rem;
+    font-weight: 700;
+    color: #353535;
+    text-align: center;
+}
+
+/* 버튼 스타일 */
+.resume-button {
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
+    display: inline-flex; /* 아이콘과 텍스트를 가로로 배치 */
+    align-items: center; /* 아이콘과 텍스트를 세로로 중앙 정렬 */
+    gap: 0.2rem; /* 아이콘과 텍스트 간의 간격 설정 */
+    color: #5e8cff; /* 텍스트와 아이콘 색상 */
+    font-size: 1.2rem; /* 텍스트 크기 */
+    font-weight: 700; /* 텍스트 두께 */
+    text-decoration: none; /* 밑줄 제거 */
+    cursor: pointer; /* 클릭 가능한 커서 */
+    transition: color 0.3s ease; /* 호버 애니메이션 */
+}
+
+.resume-button:hover {
+    color: #3c6edc; /* 호버 시 색상 변경 */
+}
+
+/* 아이콘 스타일 */
+.resume-button svg {
+    width: 1rem; /* 아이콘 너비 */
+    height: 1rem; /* 아이콘 높이 */
+    fill: currentColor; /* 텍스트와 동일한 색상 */
+}
