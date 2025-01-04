@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header/Header.jsx';
 import Profile from './components/Profile/Profile.jsx';
 import ProjectList from './components/ProjectList/ProjectList.jsx';
@@ -9,11 +8,11 @@ const App = () => {
     const [step, setStep] = useState(0);
 
     useEffect(() => {
-        // 스크롤 비활성화
+        // 스크롤 차단 및 복원
         if (step < 3) {
-            document.body.style.overflow = 'hidden'; // 스크롤 차단
+            document.body.classList.add('no-scroll'); // 스크롤 차단
         } else {
-            document.body.style.overflow = ''; // 스크롤 복원
+            document.body.classList.remove('no-scroll'); // 스크롤 복원
         }
     }, [step]);
 

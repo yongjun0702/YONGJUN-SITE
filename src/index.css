@@ -12,6 +12,15 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+/* 스크롤 차단 */
+.no-scroll {
+  overflow: hidden !important; /* 모든 스크롤 차단 */
+  height: 100vh; /* 전체 높이를 화면에 고정 */
+  position: fixed; /* 모바일에서 스크롤 고정 */
+  width: 100vw; /* 화면 가로폭 고정 */
+  touch-action: none; /* 터치 스크롤 차단 */
+}
+
 body {
   font-family: "Freesentation", sans-serif;
   padding: 17% 10% 10% 10%;
