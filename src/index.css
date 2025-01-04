@@ -13,12 +13,16 @@
   -moz-osx-font-smoothing: grayscale;
 }
 /* 스크롤 차단 */
+/* 스크롤 차단 */
 .no-scroll {
   overflow: hidden !important; /* 모든 스크롤 차단 */
   height: 100vh; /* 전체 높이를 화면에 고정 */
   position: fixed; /* 모바일에서 스크롤 고정 */
   width: 100vw; /* 화면 가로폭 고정 */
+  top: 0;
+  left: 0;
   touch-action: none; /* 터치 스크롤 차단 */
+  overscroll-behavior: none; /* 추가 스크롤 차단 (iOS 등에서 효과적) */
 }
 
 body {
