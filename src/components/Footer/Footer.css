@@ -1,0 +1,62 @@
+/* Footer 전체 스타일 */
+.footer {
+    padding-top: 7rem;
+    text-align: center;
+}
+
+/* 아이콘 섹션 */
+.footer-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem; /* 아이콘 간격 */
+}
+
+/* 공통 아이콘 스타일 */
+.footer-icon {
+    font-size: 1.8rem; /* 아이콘 크기 */
+    transition: color 0.3s ease; /* 호버 효과 */
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+/* LinkedIn 아이콘 */
+.footer-icon.linkedin {
+    color: #0e76a8;
+}
+
+.footer-icon.linkedin:hover {
+    color: #005582; /* 호버 시 색 변경 */
+}
+
+/* GitHub 아이콘 */
+.footer-icon.github {
+    color: #333;
+}
+
+.footer-icon.github:hover {
+    color: #000; /* 호버 시 색 변경 */
+}
+
+/* GitHub 아이콘 */
+body.dark-mode .footer-icon.github {
+    color: #cccccc;
+}
+
+body.dark-mode .footer-icon.github:hover {
+    color: #8a8a8a; /* 호버 시 색 변경 */
+}
+
+/* Email 아이콘 */
+.footer-icon.email {
+    color: #c23a2b;
+}
+
+.footer-icon.email:hover {
+    color: #a51d1d; /* 호버 시 색 변경 */
+}
+
+/* 텍스트 스타일 */
+.footer-text {
+    font-size: 0.9rem;
+    color: #8a8a8a;
+    margin: 0;
+}

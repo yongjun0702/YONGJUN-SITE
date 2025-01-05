@@ -57,3 +57,14 @@
     height: 1rem; /* 아이콘 높이 */
     fill: currentColor; /* 텍스트와 동일한 색상 */
 }
+
+body.dark-mode .large-text {
+    color: #cccccc;
+}
+body.dark-mode .resume-button {
+    color: #a1bcff;
+}
+
+body.dark-mode .resume-button:hover {
+    color: #3c6edc; /* 호버 시 색상 변경 */
+}

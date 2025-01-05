@@ -5,7 +5,6 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #FFFFFF;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -27,14 +26,21 @@
   align-items: center; /* 세로축 중앙 정렬 */
   flex-direction: column; /* 세로 방향으로 콘텐츠 배치 */
 }
-
 body {
   font-family: "Freesentation", sans-serif;
   padding: 17% 10% 10% 10%;
   margin: 0;
-  background: #FFFFFF;
-  color: #333;
+  background-color: var(--color-bg-light);
+  color: var(--color-text-light);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+body.dark-mode {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-dark);
+}
+
+
 a {
   text-decoration: none;
 }

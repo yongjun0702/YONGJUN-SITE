@@ -18,7 +18,11 @@
 .project-list {
     display: grid; /* Grid 레이아웃 사용 */
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 카드의 최소/최대 크기 설정 */
-    gap: 20px; /* 카드 간 간격 */
+    gap: 30px; /* 카드 간 간격 */
     width: 100%; /* 카드 리스트는 전체 너비 사용 */
     justify-content: center; /* 카드 중앙 정렬 */
+}
+
+body.dark-mode .project-title {
+    color: #cccccc;
 }

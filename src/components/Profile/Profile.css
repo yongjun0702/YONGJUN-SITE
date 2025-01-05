@@ -122,3 +122,74 @@
         opacity: 0.5;
     }
 }
+
+
+
+/* 다크모드 스타일 */
+body.dark-mode .profile {
+    background: #171717; /* 다크모드 배경색 */
+    box-shadow: 4px 4px 15px 4px rgba(0, 0, 0, 0.05); /* 부드러운 그림자 */
+}
+
+body.dark-mode .profile-content {
+    color: #8a8a8a; /* 다크모드 텍스트 색상 */
+}
+
+body.dark-mode .content-title {
+    color: #cccccc; /* 컨텐츠 타이틀 텍스트 색상 */
+}
+
+body.dark-mode .profile-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-left: 1px solid #444; /* 다크모드 테두리 색상 */
+}
+
+body.dark-mode .profile-title {
+   background-color: #a1bcff;
+    color: #252525;
+}
+
+body.dark-mode .profile-group p {
+    margin: 2px 20px;
+    line-height: 1.4;
+    font-size: 1rem;
+}
+
+body.dark-mode .profile-group:first-child {
+    border-left: none; /* 첫 번째 그룹의 세로선 제거 */
+}
+
+body.dark-mode .profile a:hover {
+    color: #86c5ff; /* 다크모드 호버 색상 */
+}
+
+
+body.dark-mode .circle-image {
+    opacity: 0.5; /* 다크모드 이미지 투명도 */
+}
+
+/* 반응형 다크모드 스타일 */
+@media (max-width: 768px) {
+    body.dark-mode .profile-content {
+        flex-direction: column; /* 세로 정렬 */
+        align-items: center;
+    }
+
+    body.dark-mode .profile-group {
+        border-left: none; /* 세로선 제거 */
+        border-top: 1px solid #444; /* 가로선 추가 */
+        width: 100%; /* 전체 너비 차지 */
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    body.dark-mode .profile-group:first-child {
+        border-top: none; /* 첫 번째 그룹의 가로선 제거 */
+    }
+
+}

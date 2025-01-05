@@ -1,7 +1,7 @@
 .project-card {
     background: #fff;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -43,7 +43,6 @@
 
 .project-content {
     display: flex;
-    gap: 20px;
     align-items: flex-start;
 }
 
@@ -70,4 +69,16 @@
     padding-left: 20px;
     font-size: 0.95rem;
     color: #555;
+}
+
+body.dark-mode .project-card {
+    background: #171717;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+body.dark-mode .project-description p {
+    color: #cccccc;
+}
+body.dark-mode .project-tag {
+    background: #a1bcff;
+    color: #252525;
 }

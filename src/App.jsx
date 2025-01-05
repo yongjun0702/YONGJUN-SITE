@@ -3,6 +3,7 @@ import Header from './components/Header/Header.jsx';
 import Profile from './components/Profile/Profile.jsx';
 import ProjectList from './components/ProjectList/ProjectList.jsx';
 import './index.css';
+import Footer from "./components/Footer/Footer.jsx";
 
 const App = () => {
     const [step, setStep] = useState(0);
@@ -38,6 +39,7 @@ const App = () => {
             <div className={`fade-in ${step >= 3 ? 'visible' : ''}`}>
                 <Profile />
                 <ProjectList />
+                <Footer />
             </div>
         </div>
     );

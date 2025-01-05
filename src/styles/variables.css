@@ -1,4 +1,10 @@
 :root {
+
+    --color-bg-light: #ffffff;
+    --color-bg-dark: #121212;
+    --color-text-light: #333333;
+    --color-text-dark: #ffffff;
+
     /* 색상 변수 */
     --primary-color: #007bff;
     --secondary-color: #6c757d;
@@ -6,7 +12,6 @@
     --danger-color: #dc3545;
 
     /* 배경 및 텍스트 색상 */
-    --background-color: #f9f9f9;
     --text-color: #333;
 
     /* 폰트 크기 */
