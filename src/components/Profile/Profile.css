@@ -32,6 +32,8 @@
     flex-direction: column; /* 세로 정렬 */
     align-items: center;
     border-left: 1px solid #ddd; /* 세로선 */
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .profile-group:first-child {
@@ -44,16 +46,16 @@
     padding: 5px 10px;
     font-size: 1.1rem;
     font-weight: 700;
-    margin: 10px;
+    margin: 7px;
     text-align: center;
     color: white;
 }
 
 
 .profile-group p {
-    margin: 5px 0;
-    line-height: 1.5;
-    font-size: clamp(1rem, 2.5vw, 1.1rem);
+    margin: 2px 20px;
+    line-height: 1.4;
+    font-size: 1rem;
 }
 
 .work {

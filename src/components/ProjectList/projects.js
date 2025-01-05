@@ -29,21 +29,20 @@ const projects = [
         ],
     },
     {
-        title: "빈틈 (VinTeum)",
+        title: "빈틈",
         period: "2024.07 - 현재",
         tags: [
             "Flutter",
             "Provider",
             "RestAPI",
             "http",
-            "image_picker",
             "Git",
             "Github",
             "Figma",
         ],
         description:
             "빈틈 프로젝트는 사용자의 시간표 사진을 인공지능으로 분석하고 그룹별로 공강 시간이 겹치는 시간을 계산하여 대학생들이 보다 간편하게 시간 관리를 할 수 있도록 돕는 대학생 대상의 모바일 어플리케이션입니다.\n" +
-            "프로젝트의 기획 단계부터 참여하였으며 메인 프론트엔드 개발자로 기여했습니다.",
+            "프로젝트의 기획 단계부터 참여하였으며 메인 프론트엔드 개발자로 참여했습니다.",
         image: vinteum, // import로 불러온 이미지 사용
         details: [
             "Provider를 사용하여 기본 상태 관리 구조의 한계 극복",
@@ -63,12 +62,13 @@ const projects = [
             "shared_preferences",
             "cloud_firestore",
             "firebase_auth",
-            "image_picker",
+            "Firebase Hosting",
             "Git",
         ],
         description:
-            "주변의 수요를 통해 개발을 시작하여 사용자의 운동을 쉽게 기록하고 관리 할 수 있는 것을 목표로 제작하여 실제 \n" +
-            "주변 지인들에게 배포하여 사용이 이루어지고 있습니다. 구글 플레이 스토어 프로덕션 과정을 진행 중에 있습니다.",
+            "사용자의 운동을 쉽게 기록하고 관리 할 수 있는 것을 목표로 주변의 수요를 통해 개발을 시작하여 실제 \n" +
+            "다양한 데이터를 시각화 하여 사용자에게 동기부여를 제공하는 것이 목표이며 주변 지인들에게 배포하여 사용이 이루어지고 있습니다. " +
+            "현재 구글 플레이 스토어 프로덕션 과정을 진행 중에 있습니다.",
         image: exercheck, // import로 불러온 이미지 사용
         details: [
         ],
