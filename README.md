@@ -1,7 +1,7 @@
 # YONGJUN-SITE
 https://yongjun.site
 > 개인 포트폴리오용 웹사이트입니다. <br>
-> React와 Vite를 활용하여 제작되었으며, 다크모드 기능도 구현되었습니다.
+> React와 Vite를 활용하여 제작되었으며, 반응형 UI와 다크모드 기능을 구현되었습니다.
 
 ## 구동 화면
 ### 💻 PC 버전
