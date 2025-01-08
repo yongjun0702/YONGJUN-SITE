@@ -8,7 +8,6 @@
     font-weight: 700; /* 굵기 */
     cursor: pointer; /* 클릭 가능한 커서 */
     transition: all 0.3s ease; /* 부드러운 애니메이션 */
-    box-shadow: 4px 4px 15px 4px rgba(0, 0, 0, 0.05); /* 부드러운 그림자 */
     border: 1px solid #5e8cff; /* 메인 색상 테두리 */
 
 
