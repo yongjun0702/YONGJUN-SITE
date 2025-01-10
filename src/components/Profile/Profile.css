@@ -31,9 +31,22 @@
     display: flex;
     flex-direction: column; /* 세로 정렬 */
     align-items: center;
-    border-left: 1px solid #ddd; /* 세로선 */
+    border-left: 1px solid #ddd; /* 기존 스타일 유지 */
     padding-top: 10px;
 }
+
+.profile-header {
+    display: flex;
+    align-items: center; /* 세로 중앙 정렬 */
+    justify-content: center;
+}
+
+.profile-logo {
+    width: 30px; /* 로고 크기 */
+    height: 30px;
+    object-fit: contain; /* 로고 비율 유지 */
+}
+
 
 .profile-group:first-child {
     border-left: none; /* 첫 번째 그룹의 세로선 제거 */
@@ -46,6 +59,7 @@
     font-size: 1.1rem;
     font-weight: 700;
     margin-top: 22px;
+    margin-bottom: 7px;
     text-align: center;
     color: white;
 }
@@ -95,6 +109,9 @@
 @media (max-width: 768px) {
     .profile {
         padding: 0 25px;
+    }
+    .profile-title {
+        margin-bottom: 0;
     }
     .profile-content {
         flex-direction: column; /* 세로 정렬 */
