@@ -16,7 +16,6 @@
 /* 스크롤 차단 */
 .no-scroll {
   overflow: hidden !important; /* 모든 스크롤 차단 */
-  position: fixed; /* 화면 고정 */
   top: 0;
   left: 0;
   touch-action: none; /* 터치 스크롤 차단 */

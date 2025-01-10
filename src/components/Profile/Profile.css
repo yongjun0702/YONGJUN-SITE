@@ -123,6 +123,12 @@
     }
 }
 
+@media (min-width: 2560px) {
+    .circle-image-container {
+        top: 600px; /* PC 화면에서 더 아래로 이동 */
+    }
+}
+
 
 
 /* 다크모드 스타일 */
