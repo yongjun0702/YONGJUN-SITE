@@ -45,6 +45,7 @@
     width: 30px; /* 로고 크기 */
     height: 30px;
     object-fit: contain; /* 로고 비율 유지 */
+    pointer-events: none;
 }
 
 
