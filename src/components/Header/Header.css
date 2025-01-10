@@ -17,7 +17,7 @@
 
 /* 텍스트 스타일 */
 .small-text {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: 500;
     line-height: 1.2;
     color: #8a8a8a;
@@ -25,7 +25,7 @@
 }
 
 .large-text {
-    font-size: 2.3rem;
+    font-size: 2.5rem;
     font-weight: 700;
     color: #353535;
     text-align: center;
@@ -40,7 +40,7 @@
     align-items: center; /* 아이콘과 텍스트를 세로로 중앙 정렬 */
     gap: 0.2rem; /* 아이콘과 텍스트 간의 간격 설정 */
     color: #5e8cff; /* 텍스트와 아이콘 색상 */
-    font-size: 1.2rem; /* 텍스트 크기 */
+    font-size: 1.3rem; /* 텍스트 크기 */
     font-weight: 700; /* 텍스트 두께 */
     text-decoration: none; /* 밑줄 제거 */
     cursor: pointer; /* 클릭 가능한 커서 */
@@ -69,12 +69,36 @@ body.dark-mode .resume-button:hover {
     color: #3c6edc; /* 호버 시 색상 변경 */
 }
 
-@media (max-width: 400px) {
+@media (max-width: 405px) {
     .small-text {
         font-size: 1.0rem;
     }
 
     .large-text {
+        font-size: 2.2rem;
+    }
+    .resume-button {
+        font-size: 1.0rem;
+    }
+    .resume-button svg {
+        width: 0.8rem; /* 아이콘 너비 */
+        height: 0.8rem; /* 아이콘 높이 */
+    }
+}
+
+@media (max-width: 313px) {
+    .small-text {
+        font-size: 0.9rem;
+    }
+
+    .large-text {
         font-size: 2.1rem;
+    }
+    .resume-button {
+        font-size: 0.9rem;
+    }
+    .resume-button svg {
+        width: 0.7rem; /* 아이콘 너비 */
+        height: 0.7rem; /* 아이콘 높이 */
     }
 }
