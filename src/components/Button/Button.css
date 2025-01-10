@@ -2,13 +2,14 @@
     background-color: #353535; /* 투명 배경 */
     color: white; /* 기본 텍스트 색상 */
     border-radius: 10px; /* 둥근 버튼 */
-    padding: 5px 10px;
+    padding: 13px 7px;
     font-size: 0.9rem; /* 텍스트 크기 */
     margin-top: 5px;
     font-weight: 700; /* 굵기 */
     cursor: pointer; /* 클릭 가능한 커서 */
     transition: all 0.3s ease; /* 부드러운 애니메이션 */
     border: none;
+    line-height: 0;
 
 
 }
