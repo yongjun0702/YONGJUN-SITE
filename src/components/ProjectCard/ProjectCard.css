@@ -74,7 +74,7 @@
 
 body.dark-mode .project-card {
     background: #181818;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 body.dark-mode .project-description p {
@@ -82,7 +82,6 @@ body.dark-mode .project-description p {
 }
 
 body.dark-mode .project-period {
-    font-size: 0.9rem;
     color: #8a8a8a;
 }
 

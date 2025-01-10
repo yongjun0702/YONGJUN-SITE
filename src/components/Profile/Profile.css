@@ -166,13 +166,9 @@ body.dark-mode .content-title {
 }
 
 body.dark-mode .profile-group {
-    flex: 1;
-    display: flex;
-    flex-direction: column; /* 세로 정렬 */
-    align-items: center;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-left: 1px solid #444; /* 다크모드 테두리 색상 */
+    margin-bottom: 0; /* 여백이 추가되지 않도록 */
+    padding: 10px; /* 기본 padding 유지 */
+    border-left: 1px solid #444; /* 다크모드 테두리 */
 }
 
 body.dark-mode .profile-title {
@@ -181,7 +177,6 @@ body.dark-mode .profile-title {
 }
 
 body.dark-mode .profile-group p {
-    margin: 2px 20px;
     line-height: 1.4;
     font-size: 1rem;
 }
