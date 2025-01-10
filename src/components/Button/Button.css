@@ -1,25 +1,27 @@
 .dark-mode-toggle {
-    background-color: white; /* 투명 배경 */
-    color: #5e8cff; /* 기본 텍스트 색상 */
-    border-radius: 12px; /* 둥근 버튼 */
+    background-color: #353535; /* 투명 배경 */
+    color: white; /* 기본 텍스트 색상 */
+    border-radius: 10px; /* 둥근 버튼 */
     padding: 5px 10px;
-    margin-bottom: 10px;
-    font-size: 1rem; /* 텍스트 크기 */
+    font-size: 0.9rem; /* 텍스트 크기 */
+    margin-top: 5px;
     font-weight: 700; /* 굵기 */
     cursor: pointer; /* 클릭 가능한 커서 */
     transition: all 0.3s ease; /* 부드러운 애니메이션 */
-    border: 1px solid #5e8cff; /* 메인 색상 테두리 */
+    border: none;
 
 
 }
 
-.dark-mode-toggle:hover {
-    background-color: #5e8cff; /* 호버 시 배경색 변경 */
-    color: white; /* 호버 시 텍스트 색상 변경 */
-}
 
 .dark-mode {
     background-color: #121212; /* 다크모드 배경색 */
+}
+
+body.dark-mode .dark-mode-toggle {
+    background-color: white; /* 투명 배경 */
+    color: #353535; /* 기본 텍스트 색상 */
+
 }
 
 body {

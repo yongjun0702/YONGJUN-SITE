@@ -8,17 +8,17 @@ const projects = [
         period: "2024.12 - 2024.12 (웹앱 배포)",
         tags: [
             "Flutter",
+            "Flutter Web",
             "Firebase",
             "Figma",
             "Git",
             "Github Actions",
-            "google_maps_flutter_web",
             "Firebase Cloud Functions",
             "cloud_firestore",
             "firebase_auth",
         ],
         description:
-            "StudyWith 프로젝트는 교내 학습 라운지의 위치를 지도에 시각화하여 제공하고 간편하게 개인의 이용을 관리할 수 있는 플랫폼입니다. 기획부터 디자인, 개발까지 모두 진행한 개인 프로젝트로 Github Actions로 배포한 서비스 입니다.",
+           "StudyWith 프로젝트는 교내 학습 라운지의 위치를 지도에 시각적으로 제공하며, 개인 이용 관리 기능을 간편하게 지원하는 플랫폼입니다. 기획부터 디자인, 개발까지 전 과정을 혼자 수행한 개인 프로젝트로 Github Actions를 활용한 CI/CD 구축을 통해 배포한 서비스입니다.",
         image: studywith,
         details: [
             "Firebase를 활용한 자체 데이터베이스 구축",
@@ -41,8 +41,7 @@ const projects = [
             "Figma",
         ],
         description:
-            "빈틈 프로젝트는 사용자의 시간표 사진을 인공지능으로 분석하고 그룹별로 공강 시간이 겹치는 시간을 계산하여 대학생들이 보다 간편하게 시간 관리를 할 수 있도록 돕는 대학생 대상의 모바일 어플리케이션입니다.\n" +
-            "프로젝트의 기획 단계부터 참여하였으며 메인 프론트엔드 개발자로 참여했습니다.",
+            "빈틈 프로젝트는 사용자의 시간표 사진을 인공지능으로 분석해 그룹별 공강 시간을 계산함으로써 대학생들이 효율적으로 모임 일정 관리를 할 수 있도록 돕는 모바일 애플리케이션입니다. 기획 단계부터 참여했으며, 애플리케이션의 핵심 로직을 설계 및 구현하는 메인 프론트엔드로 참여했습니다.",
         image: vinteum, // import로 불러온 이미지 사용
         details: [
             "Provider를 사용하여 기본 상태 관리 구조의 한계 극복",
@@ -59,16 +58,13 @@ const projects = [
             "Flutter",
             "Provider",
             "flutter_local_notifications",
-            "shared_preferences",
             "cloud_firestore",
             "firebase_auth",
             "Firebase Hosting",
             "Git",
         ],
         description:
-            "사용자의 운동을 쉽게 기록하고 관리 할 수 있는 것을 목표로 주변의 수요를 통해 개발을 시작하였습니다.\n" +
-            "다양한 데이터를 시각화 하여 사용자에게 동기부여를 제공하는 것이 목표이며 주변 지인들에게 배포하여 사용이 이루어지고 있습니다." +
-            "현재 구글 플레이 스토어 프로덕션 과정을 진행 중에 있습니다.",
+           "ExerCheck 프로젝트는 사용자가 운동을 쉽고 효율적으로 기록하고 관리할 수 있도록 도움을 주는 모바일 어플리케이션 입니다. 다양한 데이터를 제공해 사용자에게 동기부여를 제공하는 것을 목표로 하며 주변의 수요를 반영해 기획, 디자인, 개발까지 모두 직접 진행한 개인 프로젝트입니다.",
         image: exercheck, // import로 불러온 이미지 사용
         details: [
         ],

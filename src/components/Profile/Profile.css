@@ -1,7 +1,7 @@
 .profile {
-    padding: 20px;
+    padding: 0px 20px 15px 20px;
     margin-top: 3rem;
-    margin-bottom: 5rem;
+    margin-bottom: 4.5rem;
     background: white;
     border-radius: 12px; /* 둥근 모서리 */
     box-shadow: 4px 4px 15px 4px rgba(0, 0, 0, 0.05); /* 부드러운 그림자 */
@@ -33,7 +33,6 @@
     align-items: center;
     border-left: 1px solid #ddd; /* 세로선 */
     padding-top: 10px;
-    padding-bottom: 10px;
 }
 
 .profile-group:first-child {
@@ -46,14 +45,14 @@
     padding: 5px 10px;
     font-size: 1.1rem;
     font-weight: 700;
-    margin: 7px;
+    margin-top: 22px;
     text-align: center;
     color: white;
 }
 
 
 .profile-group p {
-    margin: 2px 20px;
+    margin: 2px 10px;
     line-height: 1.4;
     font-size: 1rem;
 }
@@ -94,6 +93,9 @@
 
 /* 반응형 스타일 */
 @media (max-width: 768px) {
+    .profile {
+        padding: 0 25px;
+    }
     .profile-content {
         flex-direction: column; /* 세로 정렬 */
         align-items: center;
@@ -101,10 +103,10 @@
 
     .profile-group {
         border-left: none; /* 세로선 제거 */
-        border-top: 1px solid #ddd; /* 가로선 추가 */
+        border-top: 0.8px solid #ddd; /* 가로선 추가 */
         width: 100%; /* 전체 너비 차지 */
-        padding-top: 10px;
-        padding-bottom: 10px;
+        padding-top: 15px;
+        padding-bottom: 15px;
     }
 
     .profile-group:first-child {
@@ -192,6 +194,8 @@ body.dark-mode .circle-image {
         width: 100%; /* 전체 너비 차지 */
         padding-top: 10px;
         padding-bottom: 10px;
+
+
     }
 
     body.dark-mode .profile-group:first-child {

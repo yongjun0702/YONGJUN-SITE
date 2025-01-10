@@ -1,6 +1,6 @@
 /* Footer 전체 스타일 */
 .footer {
-    padding-top: 7rem;
+    padding-top: 9rem;
     text-align: center;
     display: flex;
     justify-content: center;
@@ -12,6 +12,7 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    position: relative;
 }
 
 /* 아이콘 섹션 */
@@ -39,13 +40,18 @@ body.dark-mode .footer-icon {
     margin: 0;
     margin-top: 0.5rem;
     margin-bottom: 1rem;
-
-
+    position: absolute; /* 항상 중앙에 위치하도록 */
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 @media (max-width: 768px) {
     .footer-content {
         flex-direction: column; /* 세로 방향 배치 */
         text-align: center;
+    }
+    .footer-text {
+        position: static; /* 모바일에서는 중앙 고정 제거 */
+        transform: none;
     }
 }
