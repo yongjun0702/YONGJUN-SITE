@@ -30,7 +30,7 @@ const projects = [
     },
     {
         title: "빈틈",
-        period: "2024.07 - 현재",
+        period: "2024.07 - 현재 (IOS 배포)",
         tags: [
             "Flutter",
             "Provider",
