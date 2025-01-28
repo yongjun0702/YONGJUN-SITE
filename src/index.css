@@ -21,10 +21,10 @@
   touch-action: none; /* 터치 스크롤 차단 */
   overscroll-behavior: none; /* 추가 스크롤 차단 */
 
-  display: flex; /* Flexbox 활성화 */
-  justify-content: center; /* 가로축 중앙 정렬 */
-  align-items: center; /* 세로축 중앙 정렬 */
-  flex-direction: column; /* 세로 방향으로 콘텐츠 배치 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 body {
   font-family: "Freesentation", sans-serif;

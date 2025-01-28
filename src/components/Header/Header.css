@@ -5,7 +5,6 @@
 }
 
 
-/* 공통 애니메이션 */
 .fade-in {
     opacity: 0;
     transition: opacity 1.2s ease;
@@ -15,7 +14,6 @@
     opacity: 1;
 }
 
-/* 텍스트 스타일 */
 .small-text {
     font-size: 1.3rem;
     font-weight: 500;
@@ -32,30 +30,29 @@
     padding-bottom: 3px;
 }
 
-/* 버튼 스타일 */
 .resume-button {
     margin-top: 0.5rem;
     margin-bottom: 2rem;
-    display: inline-flex; /* 아이콘과 텍스트를 가로로 배치 */
-    align-items: center; /* 아이콘과 텍스트를 세로로 중앙 정렬 */
-    gap: 0.2rem; /* 아이콘과 텍스트 간의 간격 설정 */
-    color: #5e8cff; /* 텍스트와 아이콘 색상 */
-    font-size: 1.3rem; /* 텍스트 크기 */
-    font-weight: 700; /* 텍스트 두께 */
-    text-decoration: none; /* 밑줄 제거 */
-    cursor: pointer; /* 클릭 가능한 커서 */
-    transition: color 0.3s ease; /* 호버 애니메이션 */
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    color: #5e8cff;
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
 }
 
 .resume-button:hover {
-    color: #3c6edc; /* 호버 시 색상 변경 */
+    color: #3c6edc;
 }
 
 /* 아이콘 스타일 */
 .resume-button svg {
-    width: 1rem; /* 아이콘 너비 */
-    height: 1rem; /* 아이콘 높이 */
-    fill: currentColor; /* 텍스트와 동일한 색상 */
+    width: 1rem;
+    height: 1rem;
+    fill: currentColor;
 }
 
 body.dark-mode .large-text {
@@ -66,7 +63,7 @@ body.dark-mode .resume-button {
 }
 
 body.dark-mode .resume-button:hover {
-    color: #3c6edc; /* 호버 시 색상 변경 */
+    color: #3c6edc;
 }
 
 @media (max-width: 404px) {
@@ -81,8 +78,8 @@ body.dark-mode .resume-button:hover {
         font-size: 1.1rem;
     }
     .resume-button svg {
-        width: 0.8rem; /* 아이콘 너비 */
-        height: 0.8rem; /* 아이콘 높이 */
+        width: 0.8rem;
+        height: 0.8rem;
     }
 }
 
@@ -98,7 +95,7 @@ body.dark-mode .resume-button:hover {
         font-size: 0.9rem;
     }
     .resume-button svg {
-        width: 0.7rem; /* 아이콘 너비 */
-        height: 0.7rem; /* 아이콘 높이 */
+        width: 0.7rem;
+        height: 0.7rem;
     }
 }

@@ -1,4 +1,3 @@
-/* Footer 전체 스타일 */
 .footer {
     padding-top: 5.5rem;
     text-align: center;
@@ -15,17 +14,15 @@
     position: relative;
 }
 
-/* 아이콘 섹션 */
 .footer-icons {
     display: flex;
-    gap: 0.9rem; /* 아이콘 간격 */
+    gap: 0.9rem;
 }
 
-/* 공통 아이콘 스타일 */
 .footer-icon {
-    font-size: 1.6rem; /* 아이콘 크기 */
-    transition: color 0.3s ease; /* 호버 효과 */
-    text-decoration: none; /* 밑줄 제거 */
+    font-size: 1.6rem;
+    transition: color 0.3s ease;
+    text-decoration: none;
     color: var(--color-bg-dark);
 }
 
@@ -33,25 +30,24 @@ body.dark-mode .footer-icon {
     color: var(--color-bg-light);
 }
 
-/* 텍스트 스타일 */
 .footer-text {
     font-size: 0.9rem;
     color: #8a8a8a;
     margin: 0;
     margin-top: 0.5rem;
     margin-bottom: 1rem;
-    position: absolute; /* 항상 중앙에 위치하도록 */
+    position: absolute;
     left: 50%;
     transform: translateX(-50%);
 }
 
 @media (max-width: 768px) {
     .footer-content {
-        flex-direction: column; /* 세로 방향 배치 */
+        flex-direction: column;
         text-align: center;
     }
     .footer-text {
-        position: static; /* 모바일에서는 중앙 고정 제거 */
+        position: static;
         transform: none;
     }
 }
