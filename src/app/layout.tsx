@@ -60,11 +60,33 @@ const pretendard = localFont({
 })
 
 export const metadata: Metadata = {
-  title: "YONGJUN - Frontend Developer",
+  title: "YONGJUN-SITE",
   description: "프론트엔드 개발자 조용준입니다.",
   icons: {
 		icon: "/favicon.ico",
 	},
+  openGraph: {
+    title: "YONGJUN-SITE",
+    description: "프론트엔드 개발자 조용준입니다.",
+    url: "https://yongjun.site",
+    siteName: "YONGJUN-SITE",
+    images: [
+      {
+        url: "/og_image.png",
+        width: 1200,
+        height: 600,
+        alt: "YONGJUN-SITE",
+      },
+    ],
+    locale: "ko_KR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "YONGJUN-SITE",
+    description: "프론트엔드 개발자 조용준입니다.",
+    images: ["/og_image.png"],
+  },
 };
 
 export default function RootLayout({
