@@ -1,6 +1,6 @@
 import type { IconType } from 'react-icons'
 import { FaEnvelope, FaGithub, FaLinkedin, FaRegCopy } from 'react-icons/fa'
-import { SiGmail, SiVelog } from 'react-icons/si'
+import { SiVelog } from 'react-icons/si'
 
 interface ContactLinkItem {
   name: string
