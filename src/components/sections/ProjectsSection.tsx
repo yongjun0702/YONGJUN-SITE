@@ -116,6 +116,7 @@ export function ProjectsSection() {
       swiped = true;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { [projectId]: _, ...rest } = touchStartXRef.current;
     touchStartXRef.current = rest;
 
