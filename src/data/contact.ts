@@ -21,11 +21,11 @@ export const contactData: ContactLinkItem[] = [
     username: 'yongjun0702',
   },
   {
-    name: 'Gmail',
-    href: 'mailto:jo46453851@gmail.com',
-    IconComponent: FaEnvelope,
-    ariaLabel: 'Send me an email',
-    displayUrl: 'jo46453851@gmail.com',
+    name: 'LinkedIn',
+    href: 'https://www.linkedin.com/in/yongjun0702',
+    IconComponent: FaLinkedin,
+    ariaLabel: 'Visit my LinkedIn profile',
+    displayUrl: 'linkedin.com/in/yongjun0702',
   },
   {
     name: 'Velog',
@@ -36,11 +36,11 @@ export const contactData: ContactLinkItem[] = [
     username: '@yongjun0702',
   },
   {
-    name: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/joonseo1227/',
-    IconComponent: FaLinkedin,
-    ariaLabel: 'Visit my LinkedIn profile',
-    displayUrl: 'linkedin.com/in/yongjun0702',
+    name: 'Gmail',
+    href: 'mailto:jo46453851@gmail.com',
+    IconComponent: FaEnvelope,
+    ariaLabel: 'Send me an email',
+    displayUrl: 'jo46453851@gmail.com',
   },
 ]
 

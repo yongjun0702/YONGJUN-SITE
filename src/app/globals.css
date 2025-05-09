@@ -46,9 +46,8 @@
 :root {
   --radius: 0.625rem;
 
-  /* Light Theme Values (HEX) */
   --background: #F3F4F6;
-  --foreground: #0A0A0A; /* Near black for strong text */
+  --foreground: #0A0A0A;
   --header-background: #FFFFFF;
 
   --card: #FFFFFF; 
@@ -57,33 +56,31 @@
   --popover: #FFFFFF;
   --popover-foreground: #0A0A0A;
 
-  --primary: #3B82F6; /* User's Blue */
+  --primary: #3B82F6;
   --primary-foreground: #FFFFFF; 
 
-  --secondary: #F3F4F6; /* Light Gray */
-  --secondary-foreground: #1F2937; /* Dark Gray */
+  --secondary: #F3F4F6;
+  --secondary-foreground: #1F2937;
 
-  --muted: #F3F4F6; /* Light Gray */
-  --muted-foreground: #6B7280; /* Medium Gray for muted text */
+  --muted: #F3F4F6;
+  --muted-foreground: #6B7280;
 
-  --accent: #F3F4F6; /* Light Gray for hover/accent backgrounds */
-  --accent-foreground: #111827; /* Darker Gray for text on accent */
+  --accent: #F3F4F6;
+  --accent-foreground: #111827;
 
-  --destructive: #EF4444; /* User's Red */
+  --destructive: #EF4444;
   --destructive-foreground: #FFFFFF; 
 
-  --border: #E5E7EB; /* Light Gray Border */
+  --border: #E5E7EB;
   --input: #E5E7EB; 
-  --ring: #3B82F6; /* User's Blue for focus rings */
+  --ring: #3B82F6;
 
-  /* Chart colors (user's existing) */
   --chart-1: #3B82F6;
   --chart-2: #10B981;
   --chart-3: #F59E0B;
   --chart-4: #8B5CF6;
   --chart-5: #EC4899;
 
-  /* Sidebar colors - Light theme */
   --sidebar: #FFFFFF;
   --sidebar-foreground: #0A0A0A;
   --sidebar-primary: #3B82F6;
@@ -95,44 +92,41 @@
 }
 
 .dark {
-  /* Dark Theme Values (HEX) */
-  --background: #0A0A0A; /* Very Dark Gray / Near Black */
-  --foreground: #F5F5F5; /* Light Gray / Off-white */
-  --header-background: #121212; /* Slightly lighter than bg for header */
+  --background: #0A0A0A;
+  --foreground: #F5F5F5;
+  --header-background: #121212;
 
-  --card: #121212; /* Darker Card, closer to page background */
+  --card: #121212;
   --card-foreground: #F5F5F5;
 
-  --popover: #121212; /* Aligning popover with new card color */
+  --popover: #121212;
   --popover-foreground: #F5F5F5;
 
-  --primary: #3B82F6; /* User's Blue */
+  --primary: #3B82F6;
   --primary-foreground: #FFFFFF; 
 
-  --secondary: #2C2C2C; /* Darker Gray */
-  --secondary-foreground: #E0E0E0; /* Lighter Gray */
+  --secondary: #2C2C2C;
+  --secondary-foreground: #E0E0E0;
 
-  --muted: #2C2C2C; /* Darker Gray */
-  --muted-foreground: #A0A0A0; /* Medium Gray for muted text */
+  --muted: #2C2C2C;
+  --muted-foreground: #A0A0A0;
 
-  --accent: #2C2C2C; /* Dark Gray for hover/accent backgrounds */
-  --accent-foreground: #F5F5F5; /* Light text on accent */
+  --accent: #2C2C2C;
+  --accent-foreground: #F5F5F5;
 
-  --destructive: #DC2626; /* Slightly adjusted Red for dark mode */
+  --destructive: #DC2626;
   --destructive-foreground: #FFFFFF;
 
-  --border: #333333; /* Border for cards and elements */
+  --border: #333333;
   --input: #333333;
-  --ring: #3B82F6; /* User's Blue */
+  --ring: #3B82F6;
 
-  /* Chart colors (user's existing) */
   --chart-1: #3B82F6;
   --chart-2: #10B981;
   --chart-3: #F59E0B;
   --chart-4: #8B5CF6;
   --chart-5: #EC4899;
 
-  /* Sidebar colors - Dark theme */
   --sidebar: #0A0A0A;
   --sidebar-foreground: #F5F5F5;
   --sidebar-primary: #3B82F6;

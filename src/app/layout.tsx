@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from 'next/font/local';
+import Script from 'next/script';
 import "./globals.css";
 import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
@@ -60,22 +61,23 @@ const pretendard = localFont({
 })
 
 export const metadata: Metadata = {
-  title: "YONGJUN-SITE",
+  metadataBase: new URL('https://yongjun.site'),
+  title: "Yongjun Jo | Frontend Developer",
   description: "프론트엔드 개발자 조용준입니다.",
   icons: {
 		icon: "/favicon.ico",
 	},
   openGraph: {
-    title: "YONGJUN-SITE",
+    title: "Yongjun Jo | Frontend Developer",
     description: "프론트엔드 개발자 조용준입니다.",
     url: "https://yongjun.site",
-    siteName: "YONGJUN-SITE",
+    siteName: "Yongjun Jo | Frontend Developer",
     images: [
       {
-        url: "/og_image.png",
+        url: "/images/og_image.png",
         width: 1200,
         height: 600,
-        alt: "YONGJUN-SITE",
+        alt: "Yongjun Jo | Frontend Developer",
       },
     ],
     locale: "ko_KR",
@@ -83,11 +85,13 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "YONGJUN-SITE",
+    title: "Yongjun Jo | Frontend Developer",
     description: "프론트엔드 개발자 조용준입니다.",
-    images: ["/og_image.png"],
+    images: ["/images/og_image.png"],
   },
 };
+
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 export default function RootLayout({
   children,
@@ -96,6 +100,30 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
+      <head>
+        {GA_MEASUREMENT_ID && (
+          <>
+            <Script
+              strategy="afterInteractive"
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+            />
+            <Script
+              id="google-analytics"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${GA_MEASUREMENT_ID}', {
+                    page_path: window.location.pathname,
+                  });
+                `,
+              }}
+            />
+          </>
+        )}
+      </head>
       <body
         className={`min-h-screen bg-background font-sans antialiased ${pretendard.variable}`}
       >

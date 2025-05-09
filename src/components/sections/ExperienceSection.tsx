@@ -99,21 +99,16 @@ export function ExperienceSection() {
 
         {educationList.length > 0 && (
             <div className="relative">
-                 {/* <div
-                  className="absolute left-[15px] top-[9px] bottom-[9px] w-0.5 bg-primary/30"
-                  aria-hidden="true"
-                ></div> */}
                 <div className="space-y-8">
                     {educationList.map((edu) => (
                         <motion.div
                             key={edu.id}
-                            className="relative pl-8 md:pl-12"
+                            className="relative pl-4 md:pl-6"
                             variants={itemVariants}
                             initial="hidden"
                             whileInView="visible"
                             viewport={{ once: true, amount: 0.2 }}
                         >
-                            {/* <span className="absolute left-[8px] top-[9px] z-10 h-4 w-4 rounded-full bg-primary border-2 border-background"></span> */}
                             <div className="flex flex-row items-start gap-4 md:gap-6">
                                 {edu.logoUrl && (
                                     <div className="md:mt-1 flex-shrink-0">

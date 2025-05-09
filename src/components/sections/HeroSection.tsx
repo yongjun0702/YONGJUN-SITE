@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion'
 import React from 'react'
+import Link from 'next/link'
+import { contactData } from '@/data/contact'
 
 const heroContent = {
   title: 'Frontend Developer',
@@ -36,6 +38,44 @@ const backgroundTextAnimation = {
     transition: { duration: 0.4, delay: 0, ease: 'easeOut' },
   },
 }
+
+const iconListAnimation = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      delayChildren: 0.1,
+      staggerChildren: 0.07,
+    },
+  },
+}
+
+const fanUnfoldIconAnimation = {
+  hidden: {
+    opacity: 0,
+    rotate: -30,
+    x: -12,
+    y: 0,
+    scale: 1,
+  },
+  visible: {
+    opacity: 1,
+    rotate: 0,
+    x: 0,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.18,
+      ease: [0.22, 1, 0.36, 1],
+      opacity: {
+        duration: 0.22,
+        ease: "easeOut"
+      }
+    },
+  },
+}
+
+const MotionLink = motion.create(Link)
 
 export function HeroSection() {
   return (
@@ -81,10 +121,41 @@ export function HeroSection() {
 
         <motion.h1
           variants={textItemAnimation}
-          className="mb-3 text-6xl font-black tracking-tight text-foreground sm:text-7xl md:text-8xl lg:text-8xl"
+          className="text-6xl font-black tracking-tight text-foreground sm:text-7xl md:text-8xl lg:text-8xl"
         >
           {heroContent.name}
         </motion.h1>
+
+        <motion.div
+          variants={iconListAnimation}
+          className="mt-8"
+        >
+          <div className="flex items-center justify-center">
+            <div className="flex items-center">
+              <span className="text-xs font-medium tracking-widest text-muted-foreground/80 uppercase">
+                Contact
+              </span>
+              <div className="ml-3 mr-3 h-4 w-px bg-muted-foreground/40 sm:mr-4"></div>
+            </div>
+            
+            <div className="flex items-center gap-3 sm:gap-4">
+              {contactData.map((item) => (
+                <MotionLink
+                  key={item.name}
+                  variants={fanUnfoldIconAnimation}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={item.ariaLabel}
+                  title={item.name}
+                  className="group transition-all duration-200 ease-in-out hover:-translate-y-px focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background dark:focus:ring-offset-neutral-900"
+                >
+                  <item.IconComponent className="h-5 w-5 text-muted-foreground dark:text-muted-foreground fill-current" />
+                </MotionLink>
+              ))}
+            </div>
+          </div>
+        </motion.div>
       </motion.div>
     </section>
   )

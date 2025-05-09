@@ -54,7 +54,7 @@ export function Header() {
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
         <Link
           href="#"
-          className="text-xl font-bold text-primary"
+          className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 dark:from-blue-500 dark:to-cyan-400"
           onClick={(e) => handleScrollTo(e, '#')}
         >
           YONGJUN

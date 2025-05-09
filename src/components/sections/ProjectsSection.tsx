@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getAllProjects } from '@/lib/content'
@@ -27,9 +27,9 @@ function useMediaQuery(query: string): boolean {
 }
 
 const getTextDetailsVariants = (isMobile: boolean) => ({
-  hidden: { opacity: 0, transition: { duration: isMobile ? 0.3 : 0.15 } },
-  visible: { opacity: 1, transition: { duration: isMobile ? 0.4 : 0.2 } },
-  exit: { opacity: 0, transition: { duration: isMobile ? 0.15 : 0.3, ease: isMobile ? undefined : [0.4, 0, 0.2, 1] } },
+  hidden: { opacity: 0, maxHeight: 0, transition: { duration: isMobile ? 0.3 : 0.15 } },
+  visible: { opacity: 1, maxHeight: '1000px', transition: { duration: isMobile ? 0.4 : 0.2 } },
+  exit: { opacity: 0, maxHeight: 0, transition: { duration: isMobile ? 0.3 : 0.3, ease: isMobile ? "easeInOut" : [0.4, 0, 0.2, 1] } },
 });
 
 const getCarouselVariants = (isMobile: boolean) => ({
@@ -39,7 +39,7 @@ const getCarouselVariants = (isMobile: boolean) => ({
 
 const mobileExpandedImageVariants = {
   initial: { opacity: 0 },
-  animate: { opacity: 1, transition: { duration: 0 } },
+  animate: { opacity: 1, transition: { duration: 0.1 } },
   exit: { opacity: 0, transition: { duration: 0.2 } },
 };
 
@@ -66,6 +66,12 @@ export function ProjectsSection() {
   const [carouselIndices, setCarouselIndices] = useState<Record<string, number>>({});
   const isMobile = useMediaQuery('(max-width: 767px)');
 
+  const touchStartXRef = useRef<Record<string, number>>({});
+  const wheelTimeoutRef = useRef<Record<string, ReturnType<typeof setTimeout> | null>>({});
+  const SWIPE_THRESHOLD = 50;
+
+  const desktopCarouselWrapperRefs = useRef<Record<string, { element: HTMLDivElement | null; handler: ((e: WheelEvent) => void) | null }>>({});
+
   const toggleExpand = (projectId: string) => {
     setExpandedProjects(prev => ({ ...prev, [projectId]: !prev[projectId] }));
     if (!(expandedProjects[projectId])) {
@@ -73,7 +79,7 @@ export function ProjectsSection() {
     }
   };
 
-  const handleCarouselNav = (projectId: string, direction: 'prev' | 'next', imageCount: number) => {
+  const handleCarouselNav = useCallback((projectId: string, direction: 'prev' | 'next', imageCount: number) => {
     setCarouselIndices(prev => {
       const currentIdx = prev[projectId] || 1;
       let nextIdx: number;
@@ -84,7 +90,114 @@ export function ProjectsSection() {
       }
       return { ...prev, [projectId]: nextIdx };
     });
+  }, [setCarouselIndices]);
+
+  const handleTouchStart = (projectId: string, e: React.TouchEvent) => {
+    if (!projectImagesExistAndMultiple(projectId)) return;
+    e.stopPropagation();
+    touchStartXRef.current = { ...touchStartXRef.current, [projectId]: e.touches[0].clientX };
   };
+
+  const handleTouchEnd = (projectId: string, e: React.TouchEvent, imageCount: number) => {
+    if (!projectImagesExistAndMultiple(projectId, imageCount)) return;
+    const startX = touchStartXRef.current[projectId];
+    if (startX === undefined) return;
+
+    const touchEndX = e.changedTouches[0].clientX;
+    const deltaX = touchEndX - startX;
+
+    let swiped = false;
+    if (Math.abs(deltaX) > SWIPE_THRESHOLD) {
+      if (deltaX > 0) {
+        handleCarouselNav(projectId, 'prev', imageCount);
+      } else {
+        handleCarouselNav(projectId, 'next', imageCount);
+      }
+      swiped = true;
+    }
+
+    const { [projectId]: _, ...rest } = touchStartXRef.current;
+    touchStartXRef.current = rest;
+
+    if (swiped) {
+      e.stopPropagation();
+    }
+  };
+
+  const projectImagesExistAndMultiple = useCallback((projectId: string, count?: number) => {
+    const project = projects.find(p => p.id === projectId);
+    if (!project || !project.images) return false;
+    return count !== undefined ? count > 1 : project.images.length > 1;
+  }, [projects]);
+  
+  useEffect(() => {
+    const currentRefs = desktopCarouselWrapperRefs.current;
+
+    projects.forEach(project => {
+      const projectId = project.id;
+      const isProjectExpanded = expandedProjects[project.id] || false;
+      const imageCount = project.images?.length || 0;
+      
+      const wrapperInfo = currentRefs[projectId];
+      const currentElement = wrapperInfo?.element;
+
+      if (currentElement && wrapperInfo?.handler) {
+        currentElement.removeEventListener('wheel', wrapperInfo.handler);
+        currentRefs[projectId] = { ...wrapperInfo, handler: null };
+      }
+
+      if (isProjectExpanded && currentElement && project.images && imageCount > 1 && !isMobile) {
+        const wheelHandler = (e: WheelEvent) => {
+          if (!projectImagesExistAndMultiple(projectId, imageCount)) return;
+          
+          e.preventDefault(); 
+          e.stopPropagation();
+
+          if (wheelTimeoutRef.current[projectId]) {
+            clearTimeout(wheelTimeoutRef.current[projectId]!);
+            wheelTimeoutRef.current[projectId] = null;
+          }
+
+          wheelTimeoutRef.current[projectId] = setTimeout(() => {
+            const scrollDelta = e.deltaX !== 0 ? e.deltaX : e.deltaY;
+            const threshold = 1; 
+
+            if (scrollDelta > threshold) {
+              handleCarouselNav(projectId, 'next', imageCount);
+            } else if (scrollDelta < -threshold) {
+              handleCarouselNav(projectId, 'prev', imageCount);
+            }
+            wheelTimeoutRef.current[projectId] = null;
+          }, 50);
+        };
+
+        currentElement.addEventListener('wheel', wheelHandler, { passive: false });
+        currentRefs[projectId] = { element: currentElement, handler: wheelHandler };
+      }
+    });
+
+    return () => {
+      Object.values(currentRefs).forEach(refInfo => {
+        if (refInfo?.element && refInfo?.handler) {
+          refInfo.element.removeEventListener('wheel', refInfo.handler);
+        }
+      });
+      Object.keys(wheelTimeoutRef.current).forEach(key => {
+        if (wheelTimeoutRef.current[key]) {
+          clearTimeout(wheelTimeoutRef.current[key]!);
+          wheelTimeoutRef.current[key] = null;
+        }
+      });
+    };
+  }, [projects, expandedProjects, handleCarouselNav, projectImagesExistAndMultiple, isMobile]);
+
+  useEffect(() => {
+    return () => {
+      Object.values(wheelTimeoutRef.current).forEach(timeoutId => {
+        if (timeoutId) clearTimeout(timeoutId);
+      });
+    };
+  }, []);
 
   return (
     <section
@@ -109,9 +222,12 @@ export function ProjectsSection() {
             const carouselAnimVariants = getCarouselVariants(isMobile);
 
             return (
-              <div
+              <motion.div
+                layout="position"
+                transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
                 key={project.id}
-                className={`relative w-full max-w-5xl rounded-lg border border-border bg-card transition-colors hover:border-primary overflow-hidden ${
+                onClick={() => toggleExpand(project.id)}
+                className={`relative w-full max-w-5xl rounded-lg border border-border bg-card transition-colors hover:border-primary overflow-hidden cursor-pointer ${
                   isExpanded
                     ? `grid grid-cols-1 md:grid-cols-2 items-center gap-0 md:gap-8 p-6 md:p-8`
                     : 'flex flex-col md:flex-row p-6 md:p-8 md:gap-0'
@@ -133,17 +249,17 @@ export function ProjectsSection() {
                   </div>
                   {(project.githubUrl  || project.appStoreUrl || project.playStoreUrl || project.liveUrl || project.velogUrl) && (
                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
-                           {project.githubUrl && (<Link href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-primary"><FaGithub className="h-4 w-4" /> GitHub</Link>)}
-                           {project.appStoreUrl && (<Link href={project.appStoreUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-primary"><FaApple className="h-4 w-4" /> App Store</Link>)}
-                           {project.playStoreUrl && (<Link href={project.playStoreUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-primary"><FaGooglePlay className="h-4 w-4" /> Play Store</Link>)}
-                           {project.liveUrl && (<Link href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-primary"><FaExternalLinkAlt className="h-4 w-4" /> Live Demo</Link>)}
-                           {project.velogUrl && (<Link href={project.velogUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-primary"><SiVelog className="h-4 w-4" /> Velog</Link>)}
+                           {project.githubUrl && (<Link href={project.githubUrl} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-primary"><FaGithub className="h-4 w-4" /> GitHub</Link>)}
+                           {project.appStoreUrl && (<Link href={project.appStoreUrl} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-primary"><FaApple className="h-4 w-4" /> App Store</Link>)}
+                           {project.playStoreUrl && (<Link href={project.playStoreUrl} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-primary"><FaGooglePlay className="h-4 w-4" /> Play Store</Link>)}
+                           {project.liveUrl && (<Link href={project.liveUrl} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-primary"><FaExternalLinkAlt className="h-4 w-4" /> Live Demo</Link>)}
+                           {project.velogUrl && (<Link href={project.velogUrl} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-primary"><SiVelog className="h-4 w-4" /> Velog</Link>)}
                        </div>
                    )}
 
                   <button
-                    onClick={() => toggleExpand(project.id)}
-                    className="mt-2 flex w-full items-center justify-center gap-2 rounded-md bg-secondary px-3 py-1.5 text-sm font-medium text-secondary-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background md:w-auto md:self-start"
+                    onClick={(e) => { e.stopPropagation(); toggleExpand(project.id); }}
+                    className="flex w-full items-center justify-center gap-2 rounded-md bg-secondary px-3 py-1.5 text-sm font-medium text-secondary-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background md:w-auto md:self-start"
                     aria-expanded={isExpanded}
                     aria-controls={`project-details-${project.id}`}
                   >
@@ -160,7 +276,7 @@ export function ProjectsSection() {
                         initial="hidden"
                         animate="visible"
                         exit="exit"
-                        className="overflow-hidden space-y-4 mt-4 md:mt-4"
+                        className="overflow-hidden space-y-4"
                       >
                         {project.introduction && (
                           <div className="border-l-4 border-primary/80 pl-4">
@@ -228,18 +344,27 @@ export function ProjectsSection() {
                                     className="flex flex-col mt-2"
                                 >
                                     {hasImages && (
-                                      <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-border">
+                                      <div 
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="relative aspect-video w-full overflow-hidden rounded-lg border border-border"
+                                      >
                                         <Image
                                           src={project.images![0]}
                                           alt={`${project.title} image 1`}
                                           fill
                                           className="object-cover rounded-lg"
                                           sizes="100vw"
+                                          priority
                                         />
                                       </div>
                                     )}
                                     {project.images && project.images.length > 1 && (
-                                        <div className={`relative aspect-video w-full overflow-hidden rounded-lg mt-4 border border-border`}>
+                                        <div 
+                                          onClick={(e) => e.stopPropagation()}
+                                          onTouchStart={(e) => handleTouchStart(project.id, e)}
+                                          onTouchEnd={(e) => handleTouchEnd(project.id, e, project.images!.length)}
+                                          className={`relative aspect-video w-full overflow-hidden rounded-lg mt-4 border border-border`}
+                                        >
                                           <AnimatePresence initial={false} mode="wait">
                                              <motion.div 
                                                 key={currentCarouselIndex} 
@@ -254,8 +379,6 @@ export function ProjectsSection() {
                                           </AnimatePresence>
                                           {project.images.length > 2 && (
                                             <>
-                                               <button onClick={() => handleCarouselNav(project.id, 'prev', project.images!.length)} className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-1.5 text-white transition hover:bg-black/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-white z-10" aria-label="Previous image"><FaChevronLeft className="h-4 w-4" /></button>
-                                               <button onClick={() => handleCarouselNav(project.id, 'next', project.images!.length)} className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-1.5 text-white transition hover:bg-black/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-white z-10" aria-label="Next image"><FaChevronRight className="h-4 w-4" /></button>
                                                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-black/50 px-2 py-0.5 text-xs text-white z-10">{currentCarouselIndex + 1} / {project.images!.length}</div>
                                             </>
                                           )}
@@ -285,6 +408,7 @@ export function ProjectsSection() {
                                     ? 'relative aspect-video w-full rounded-lg border border-border' 
                                     : 'relative w-full h-full rounded-lg md:absolute md:inset-0 md:rounded-none md:border-l md:border-border'
                                 }`}
+                                onClick={isExpanded ? (e) => e.stopPropagation() : undefined}
                               >
                                 <Image
                                   src={project.images![0]}
@@ -306,41 +430,47 @@ export function ProjectsSection() {
                           </AnimatePresence>
                           <AnimatePresence initial={false}>
                             {isExpanded && project.images && project.images.length > 1 && (
-                              <motion.div
-                                key="carousel-desktop"
-                                variants={carouselAnimVariants}
-                                initial="hidden"
-                                animate="visible"
-                                exit="hidden"
-                                className={`relative aspect-video w-full overflow-hidden rounded-lg mt-4 border border-border`} 
+                              <div
+                                ref={el => {
+                                  const currentEntry = desktopCarouselWrapperRefs.current[project.id];
+                                  desktopCarouselWrapperRefs.current[project.id] = { ...currentEntry, element: el };
+                                }}
                               >
-                                <AnimatePresence initial={false} mode="wait">
-                                   <motion.div 
-                                      key={currentCarouselIndex} 
-                                      initial={{ opacity: 0 }} 
-                                      animate={{ opacity: 1 }} 
-                                      exit={{ opacity: 0 }} 
-                                      transition={{ duration: 0.2 }}
-                                      className="absolute inset-0"
-                                    >
-                                      <Image src={project.images![currentCarouselIndex]} alt={`${project.title} image ${currentCarouselIndex + 1}`} fill className="object-cover rounded-lg" sizes="(max-width: 768px) 100vw, 50vw" />
-                                   </motion.div>
-                                </AnimatePresence>
-                                {project.images.length > 2 && (
-                                  <>
-                                     <button onClick={() => handleCarouselNav(project.id, 'prev', project.images!.length)} className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-1.5 text-white transition hover:bg-black/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-white z-10" aria-label="Previous image"><FaChevronLeft className="h-4 w-4" /></button>
-                                     <button onClick={() => handleCarouselNav(project.id, 'next', project.images!.length)} className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-1.5 text-white transition hover:bg-black/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-white z-10" aria-label="Next image"><FaChevronRight className="h-4 w-4" /></button>
-                                     <div className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-black/50 px-2 py-0.5 text-xs text-white z-10">{currentCarouselIndex + 1} / {project.images!.length}</div>
-                                  </>
-                                )}
-                              </motion.div>
+                                <motion.div
+                                  key="carousel-desktop"
+                                  variants={carouselAnimVariants}
+                                  initial="hidden"
+                                  animate="visible"
+                                  exit="hidden"
+                                  onClick={(e) => e.stopPropagation()}
+                                  className={`relative aspect-video w-full overflow-hidden rounded-lg mt-4 border border-border`} 
+                                >
+                                  <AnimatePresence initial={false} mode="wait">
+                                     <motion.div 
+                                        key={currentCarouselIndex} 
+                                        initial={{ opacity: 0 }} 
+                                        animate={{ opacity: 1 }} 
+                                        exit={{ opacity: 0 }} 
+                                        transition={{ duration: 0.2 }}
+                                        className="absolute inset-0"
+                                      >
+                                        <Image src={project.images![currentCarouselIndex]} alt={`${project.title} image ${currentCarouselIndex + 1}`} fill className="object-cover rounded-lg" sizes="(max-width: 768px) 100vw, 50vw" />
+                                     </motion.div>
+                                  </AnimatePresence>
+                                  {project.images.length > 2 && (
+                                    <>
+                                       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-black/50 px-2 py-0.5 text-xs text-white z-10">{currentCarouselIndex + 1} / {project.images!.length}</div>
+                                    </>
+                                  )}
+                                </motion.div>
+                              </div>
                             )}
                           </AnimatePresence>
                         </>
                     )}                    
                 </div>
 
-              </div>
+              </motion.div>
             )
           })}
         </div>
