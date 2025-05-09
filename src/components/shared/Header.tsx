@@ -55,6 +55,7 @@ export function Header() {
         <Link
           href="#"
           className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 dark:from-blue-500 dark:to-cyan-400"
+          style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
           onClick={(e) => handleScrollTo(e, '#')}
         >
           YONGJUN

@@ -46,16 +46,17 @@ const mobileExpandedImageVariants = {
 interface CustomBadgeProps {
   children: React.ReactNode;
   className?: string;
+  borderColorClass?: string;
 }
 
-function CustomBadge({ children, className = '' }: CustomBadgeProps) {
+function CustomBadge({ children, className = '', borderColorClass = 'border-transparent' }: CustomBadgeProps) {
   return (
     <span
-      className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium ring-1 ring-inset ${className}`}
+      className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium border ${borderColorClass} ${className}`.trim()}
     >
       {children}
     </span>
-  )
+  );
 }
 
 const sectionTitle = 'Projects';
@@ -244,7 +245,13 @@ export function ProjectsSection() {
                       {project.statusTags && project.statusTags.length > 0 && (
                           <div className="mt-3 flex flex-wrap gap-2">
                               {project.statusTags.map((tag) => (
-                                  <CustomBadge key={tag} className="bg-primary/10 text-primary ring-primary/30">{tag}</CustomBadge>
+                                  <CustomBadge 
+                                    key={tag} 
+                                    className="bg-primary/10 text-primary"
+                                    borderColorClass="border-primary/30"
+                                  >
+                                    {tag}
+                                  </CustomBadge>
                               ))}
                           </div>
                       )}
@@ -305,7 +312,15 @@ export function ProjectsSection() {
                            <div className="border-l-4 border-primary/80 pl-4">
                              <h4 className="text-md mb-1 font-semibold text-foreground">사용 기술</h4>
                              <div className="flex flex-wrap gap-1.5">
-                               {project.technologies.map((tech) => <CustomBadge key={tech} className="bg-secondary text-secondary-foreground ring-border">{tech}</CustomBadge>)}
+                               {project.technologies.map((tech) => (
+                                <CustomBadge 
+                                  key={tech} 
+                                  className="bg-secondary text-secondary-foreground"
+                                  borderColorClass="border-border"
+                                >
+                                  {tech}
+                                </CustomBadge>
+                              ))}
                              </div>
                            </div>
                         )}

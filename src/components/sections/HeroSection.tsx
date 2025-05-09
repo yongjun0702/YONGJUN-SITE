@@ -45,35 +45,23 @@ const iconListAnimation = {
     opacity: 1,
     transition: {
       delayChildren: 0.1,
-      staggerChildren: 0.07,
+      staggerChildren: 0.1,
     },
   },
 }
 
-const fanUnfoldIconAnimation = {
+const iconFadeInAnimation = { 
   hidden: {
     opacity: 0,
-    rotate: -30,
-    x: -12,
-    y: 0,
-    scale: 1,
   },
   visible: {
     opacity: 1,
-    rotate: 0,
-    x: 0,
-    y: 0,
-    scale: 1,
     transition: {
-      duration: 0.18,
-      ease: [0.22, 1, 0.36, 1],
-      opacity: {
-        duration: 0.22,
-        ease: "easeOut"
-      }
+      duration: 0.15, 
+      ease: "easeOut",
     },
   },
-}
+};
 
 const MotionLink = motion.create(Link)
 
@@ -115,6 +103,7 @@ export function HeroSection() {
         <motion.h2
           variants={textItemAnimation}
           className="mb-2 block text-xl font-medium tracking-tight text-transparent sm:text-2xl md:text-3xl lg:text-3xl bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 dark:from-blue-500 dark:to-cyan-400"
+          style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
         >
           {heroContent.title}
         </motion.h2>
@@ -142,7 +131,7 @@ export function HeroSection() {
               {contactData.map((item) => (
                 <MotionLink
                   key={item.name}
-                  variants={fanUnfoldIconAnimation}
+                  variants={iconFadeInAnimation}
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
