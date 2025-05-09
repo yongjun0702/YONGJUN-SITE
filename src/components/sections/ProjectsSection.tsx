@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { getAllProjects } from '@/lib/content'
 import type { Project } from '@/types/content'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaGithub, FaExternalLinkAlt, FaChevronLeft, FaChevronRight, FaApple, FaGooglePlay } from 'react-icons/fa'
+import { FaGithub, FaExternalLinkAlt, FaApple, FaGooglePlay } from 'react-icons/fa'
 import { SiVelog } from 'react-icons/si'
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
 
@@ -132,6 +132,7 @@ export function ProjectsSection() {
   
   useEffect(() => {
     const currentRefs = desktopCarouselWrapperRefs.current;
+    const wheelTimeoutsAtEffectRun = wheelTimeoutRef.current; 
 
     projects.forEach(project => {
       const projectId = project.id;
@@ -153,9 +154,9 @@ export function ProjectsSection() {
           e.preventDefault(); 
           e.stopPropagation();
 
-          if (wheelTimeoutRef.current[projectId]) {
-            clearTimeout(wheelTimeoutRef.current[projectId]!);
-            wheelTimeoutRef.current[projectId] = null;
+          if (wheelTimeoutsAtEffectRun[projectId]) { 
+            clearTimeout(wheelTimeoutsAtEffectRun[projectId]!);
+            wheelTimeoutRef.current = { ...wheelTimeoutRef.current, [projectId]: null }; 
           }
 
           wheelTimeoutRef.current[projectId] = setTimeout(() => {
@@ -167,7 +168,7 @@ export function ProjectsSection() {
             } else if (scrollDelta < -threshold) {
               handleCarouselNav(projectId, 'prev', imageCount);
             }
-            wheelTimeoutRef.current[projectId] = null;
+            wheelTimeoutRef.current = { ...wheelTimeoutRef.current, [projectId]: null }; 
           }, 50);
         };
 
@@ -182,18 +183,18 @@ export function ProjectsSection() {
           refInfo.element.removeEventListener('wheel', refInfo.handler);
         }
       });
-      Object.keys(wheelTimeoutRef.current).forEach(key => {
-        if (wheelTimeoutRef.current[key]) {
-          clearTimeout(wheelTimeoutRef.current[key]!);
-          wheelTimeoutRef.current[key] = null;
+      Object.keys(wheelTimeoutsAtEffectRun).forEach(key => { 
+        if (wheelTimeoutsAtEffectRun[key]) {
+          clearTimeout(wheelTimeoutsAtEffectRun[key]!);
         }
       });
     };
   }, [projects, expandedProjects, handleCarouselNav, projectImagesExistAndMultiple, isMobile]);
 
   useEffect(() => {
+    const timeoutsAtEffectRun = wheelTimeoutRef.current; 
     return () => {
-      Object.values(wheelTimeoutRef.current).forEach(timeoutId => {
+      Object.values(timeoutsAtEffectRun).forEach(timeoutId => { 
         if (timeoutId) clearTimeout(timeoutId);
       });
     };
