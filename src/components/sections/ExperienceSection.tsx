@@ -212,7 +212,7 @@ export function ExperienceSection() {
             <h3 className="mb-8 text-center text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
               {activitiesTitle}
             </h3>
-            <div className="space-y-2">
+            <div className="space-y-3">
               {activityList.map((activity) => (
                 <div key={activity.id} className="text-sm">
                   <span className="font-medium text-muted-foreground tabular-nums mr-2">{activity.date}</span>

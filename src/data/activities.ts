@@ -2,8 +2,14 @@ import type { Activity } from '@/types/content';
 
 export const activities: Activity[] = [
   {
-    id: 'google-study-jam',
+    id: 'sw-festival',
     date: '24.06',
+    title: '가천대학교 소프트웨어융합교육원 주최 SW Festival',
+    details: '(장려상 수상)',
+  },
+  {
+    id: 'google-study-jam',
+    date: '24.07',
     title: 'Google Cloud Study Jam Gemini 과정',
     details: '(Gemini for Application Developers 등)',
   },
