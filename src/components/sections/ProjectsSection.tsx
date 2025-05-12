@@ -79,26 +79,46 @@ const titleContainerVariants = {
   },
 };
 
+const slideVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? '100%' : '-100%',
+    opacity: 1,
+  }),
+  center: {
+    zIndex: 1,
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction: number) => ({
+    zIndex: 0,
+    x: direction < 0 ? '100%' : '-100%',
+    opacity: 1,
+  }),
+};
+
 export function ProjectsSection() {
   const projects: Project[] = getAllProjects();
   const [expandedProjects, setExpandedProjects] = useState<Record<string, boolean>>({});
   const [carouselIndices, setCarouselIndices] = useState<Record<string, number>>({});
+  const [swipeAnimationDirection, setSwipeAnimationDirection] = useState<Record<string, number>>({});
   const isMobile = useMediaQuery('(max-width: 767px)');
 
   const touchStartXRef = useRef<Record<string, number>>({});
   const wheelTimeoutRef = useRef<Record<string, ReturnType<typeof setTimeout> | null>>({});
   const SWIPE_THRESHOLD = 50;
 
-  const desktopCarouselWrapperRefs = useRef<Record<string, { element: HTMLDivElement | null; handler: ((e: WheelEvent) => void) | null }>>({});
+  const isDraggingRef = useRef(false);
 
   const toggleExpand = (projectId: string) => {
     setExpandedProjects(prev => ({ ...prev, [projectId]: !prev[projectId] }));
     if (!(expandedProjects[projectId])) {
         setCarouselIndices(prev => ({ ...prev, [projectId]: 1 }));
+        setSwipeAnimationDirection(prev => ({ ...prev, [projectId]: 0 }));
     }
   };
 
   const handleCarouselNav = useCallback((projectId: string, direction: 'prev' | 'next', imageCount: number) => {
+    setSwipeAnimationDirection(prev => ({ ...prev, [projectId]: direction === 'next' ? 1 : -1 }));
     setCarouselIndices(prev => {
       const currentIdx = prev[projectId] || 1;
       let nextIdx: number;
@@ -109,7 +129,7 @@ export function ProjectsSection() {
       }
       return { ...prev, [projectId]: nextIdx };
     });
-  }, [setCarouselIndices]);
+  }, [setCarouselIndices, setSwipeAnimationDirection]);
 
   const handleTouchStart = (projectId: string, e: React.TouchEvent) => {
     if (!projectImagesExistAndMultiple(projectId)) return;
@@ -150,67 +170,6 @@ export function ProjectsSection() {
     return count !== undefined ? count > 1 : project.images.length > 1;
   }, [projects]);
   
-  useEffect(() => {
-    const currentRefs = desktopCarouselWrapperRefs.current;
-    const wheelTimeoutsAtEffectRun = wheelTimeoutRef.current; 
-
-    projects.forEach(project => {
-      const projectId = project.id;
-      const isProjectExpanded = expandedProjects[project.id] || false;
-      const imageCount = project.images?.length || 0;
-      
-      const wrapperInfo = currentRefs[projectId];
-      const currentElement = wrapperInfo?.element;
-
-      if (currentElement && wrapperInfo?.handler) {
-        currentElement.removeEventListener('wheel', wrapperInfo.handler);
-        currentRefs[projectId] = { ...wrapperInfo, handler: null };
-      }
-
-      if (isProjectExpanded && currentElement && project.images && imageCount > 1 && !isMobile) {
-        const wheelHandler = (e: WheelEvent) => {
-          if (!projectImagesExistAndMultiple(projectId, imageCount)) return;
-          
-          e.preventDefault(); 
-          e.stopPropagation();
-
-          if (wheelTimeoutsAtEffectRun[projectId]) { 
-            clearTimeout(wheelTimeoutsAtEffectRun[projectId]!);
-            wheelTimeoutRef.current = { ...wheelTimeoutRef.current, [projectId]: null }; 
-          }
-
-          wheelTimeoutRef.current[projectId] = setTimeout(() => {
-            const scrollDelta = e.deltaX !== 0 ? e.deltaX : e.deltaY;
-            const threshold = 1; 
-
-            if (scrollDelta > threshold) {
-              handleCarouselNav(projectId, 'next', imageCount);
-            } else if (scrollDelta < -threshold) {
-              handleCarouselNav(projectId, 'prev', imageCount);
-            }
-            wheelTimeoutRef.current = { ...wheelTimeoutRef.current, [projectId]: null }; 
-          }, 50);
-        };
-
-        currentElement.addEventListener('wheel', wheelHandler, { passive: false });
-        currentRefs[projectId] = { element: currentElement, handler: wheelHandler };
-      }
-    });
-
-    return () => {
-      Object.values(currentRefs).forEach(refInfo => {
-        if (refInfo?.element && refInfo?.handler) {
-          refInfo.element.removeEventListener('wheel', refInfo.handler);
-        }
-      });
-      Object.keys(wheelTimeoutsAtEffectRun).forEach(key => { 
-        if (wheelTimeoutsAtEffectRun[key]) {
-          clearTimeout(wheelTimeoutsAtEffectRun[key]!);
-        }
-      });
-    };
-  }, [projects, expandedProjects, handleCarouselNav, projectImagesExistAndMultiple, isMobile]);
-
   useEffect(() => {
     const timeoutsAtEffectRun = wheelTimeoutRef.current; 
     return () => {
@@ -259,7 +218,12 @@ export function ProjectsSection() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.1 }}
-                onClick={() => toggleExpand(project.id)}
+                onClick={() => {
+                  if (!isDraggingRef.current) {
+                    toggleExpand(project.id);
+                  }
+                  isDraggingRef.current = false;
+                }}
                 className={`relative w-full max-w-5xl rounded-lg border border-border bg-card transition-colors hover:border-primary overflow-hidden cursor-pointer ${
                   isExpanded
                     ? `grid grid-cols-1 md:grid-cols-2 items-center gap-0 md:gap-8 p-6 md:p-8`
@@ -267,7 +231,7 @@ export function ProjectsSection() {
                 }`}
               >
                 <div 
-                  className={`flex flex-col gap-4 ${isExpanded ? 'md:col-span-1' : 'w-full md:w-[50%] md:pr-8'}`}
+                  className={`flex flex-col gap-4 ${isExpanded ? 'md:col-span-1 md:self-start' : 'w-full md:w-[50%] md:pr-8'}`}
                 >
                   <div> 
                       <h3 className="text-xl font-semibold text-foreground sm:text-2xl">{project.title}</h3>
@@ -363,7 +327,13 @@ export function ProjectsSection() {
                   isExpanded 
                     ? (isMobile ? 'w-full mt-4' : 'md:col-span-1 flex flex-col justify-center mt-4 md:mb-4 md:mt-4')
                     : (isMobile ? 'w-full aspect-video mt-6' : 'w-full aspect-video mt-4 md:mt-0 md:w-[50%] md:absolute md:top-0 md:right-0 md:h-full')
-                }`}> 
+                }`}
+                  onClick={(e) => {
+                    if (isExpanded) {
+                      e.stopPropagation();
+                    }
+                  }}
+                > 
                     {isMobile ? (
                         <AnimatePresence mode="wait" initial={false}>
                             {!isExpanded && hasImages && (
@@ -406,27 +376,51 @@ export function ProjectsSection() {
                                       </div>
                                     )}
                                     {project.images && project.images.length > 1 && (
-                                        <div 
-                                          onClick={(e) => e.stopPropagation()}
-                                          onTouchStart={(e) => handleTouchStart(project.id, e)}
-                                          onTouchEnd={(e) => handleTouchEnd(project.id, e, project.images!.length)}
-                                          className={`relative aspect-video w-full overflow-hidden rounded-lg mt-4 border border-border`}
+                                        <div
+                                          className={`relative aspect-video w-full overflow-hidden rounded-lg mt-4 border border-border isolate`}
                                         >
-                                          <AnimatePresence initial={false} mode="wait">
-                                             <motion.div 
-                                                key={currentCarouselIndex} 
-                                                initial={{ opacity: 0 }} 
-                                                animate={{ opacity: 1 }} 
-                                                exit={{ opacity: 0 }} 
-                                                transition={{ duration: 0.2 }} 
-                                                className="absolute inset-0"
+                                          <AnimatePresence initial={false} custom={swipeAnimationDirection[project.id] || 0}>
+                                             <motion.div
+                                                key={currentCarouselIndex}
+                                                custom={swipeAnimationDirection[project.id] || 0}
+                                                variants={slideVariants}
+                                                initial="enter"
+                                                animate="center"
+                                                exit="exit"
+                                                transition={{
+                                                  x: { type: "tween", duration: 0.4, ease: [0.4, 0, 0.2, 1] },
+                                                  opacity: { duration: 0.3 },
+                                                  scale: { duration: 0.2 }
+                                                }}
+                                                className="absolute inset-0 cursor-grab active:cursor-grabbing"
+                                                style={{ zIndex: 2 }}
+                                                onDragStart={() => { isDraggingRef.current = true; }}
+                                                drag="x"
+                                                dragConstraints={{ left: 0, right: 0 }}
+                                                dragElastic={0.15}
+                                                onDragEnd={(e, { offset, velocity }) => {
+                                                  isDraggingRef.current = false;
+                                                  e.stopPropagation();
+                                                  const swipeDistanceThreshold = 50;
+                                                  const swipeVelocityThreshold = 300;
+
+                                                  const swipe = Math.abs(offset.x);
+                                                  const velocityVal = Math.abs(velocity.x);
+
+                                                  if (swipe > swipeDistanceThreshold) {
+                                                      handleCarouselNav(project.id, offset.x > 0 ? 'prev' : 'next', project.images!.length);
+                                                  } else if (velocityVal > swipeVelocityThreshold) {
+                                                      handleCarouselNav(project.id, velocity.x > 0 ? 'prev' : 'next', project.images!.length);
+                                                  }
+                                                }}
+                                                onClick={(e) => e.stopPropagation()}
                                              >
-                                                <Image src={project.images![currentCarouselIndex]} alt={`${project.title} image ${currentCarouselIndex + 1}`} fill className="object-cover rounded-lg" sizes="100vw" />
+                                                <Image draggable="false" src={project.images![currentCarouselIndex]} alt={`${project.title} image ${currentCarouselIndex + 1}`} fill className="object-cover rounded-lg" sizes="100vw" />
                                              </motion.div>
                                           </AnimatePresence>
                                           {project.images.length > 2 && (
                                             <>
-                                               <div className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-black/50 px-2 py-0.5 text-xs text-white z-10">{currentCarouselIndex + 1} / {project.images!.length}</div>
+                                               <div className="absolute bottom-2 right-2 rounded-full bg-black/50 px-2 py-0.5 text-xs text-white z-10 pointer-events-none">{currentCarouselIndex + 1} / {project.images!.length}</div>
                                             </>
                                           )}
                                         </div>
@@ -478,35 +472,58 @@ export function ProjectsSection() {
                           <AnimatePresence initial={false}>
                             {isExpanded && project.images && project.images.length > 1 && (
                               <div
-                                ref={el => {
-                                  const currentEntry = desktopCarouselWrapperRefs.current[project.id];
-                                  desktopCarouselWrapperRefs.current[project.id] = { ...currentEntry, element: el };
-                                }}
+                                onClick={(e) => e.stopPropagation()}
                               >
                                 <motion.div
-                                  key="carousel-desktop"
+                                  key="carousel-desktop-wrapper"
                                   variants={carouselAnimVariants}
                                   initial="hidden"
                                   animate="visible"
                                   exit="hidden"
-                                  onClick={(e) => e.stopPropagation()}
-                                  className={`relative aspect-video w-full overflow-hidden rounded-lg mt-4 border border-border`} 
+                                  className={`relative aspect-video w-full overflow-hidden rounded-lg mt-4 border border-border isolate`}
                                 >
-                                  <AnimatePresence initial={false} mode="wait">
-                                     <motion.div 
-                                        key={currentCarouselIndex} 
-                                        initial={{ opacity: 0 }} 
-                                        animate={{ opacity: 1 }} 
-                                        exit={{ opacity: 0 }} 
-                                        transition={{ duration: 0.2 }}
-                                        className="absolute inset-0"
+                                  <AnimatePresence initial={false} custom={swipeAnimationDirection[project.id] || 0}>
+                                     <motion.div
+                                        key={currentCarouselIndex}
+                                        custom={swipeAnimationDirection[project.id] || 0}
+                                        variants={slideVariants}
+                                        initial="enter"
+                                        animate="center"
+                                        exit="exit"
+                                        transition={{
+                                          x: { type: "tween", duration: 0.4, ease: [0.4, 0, 0.2, 1] },
+                                          opacity: { duration: 0.3 },
+                                          scale: { duration: 0.2 }
+                                        }}
+                                        className="absolute inset-0 cursor-grab active:cursor-grabbing"
+                                        style={{ zIndex: 2 }}
+                                        onDragStart={() => { isDraggingRef.current = true; }}
+                                        drag="x"
+                                        dragConstraints={{ left: 0, right: 0 }}
+                                        dragElastic={0.15}
+                                        onDragEnd={(e, { offset, velocity }) => {
+                                          isDraggingRef.current = false;
+                                          e.stopPropagation();
+                                          const swipeDistanceThreshold = 50;
+                                          const swipeVelocityThreshold = 300;
+
+                                          const swipe = Math.abs(offset.x);
+                                          const velocityVal = Math.abs(velocity.x);
+
+                                          if (swipe > swipeDistanceThreshold) {
+                                              handleCarouselNav(project.id, offset.x > 0 ? 'prev' : 'next', project.images!.length);
+                                          } else if (velocityVal > swipeVelocityThreshold) {
+                                              handleCarouselNav(project.id, velocity.x > 0 ? 'prev' : 'next', project.images!.length);
+                                          }
+                                        }}
+                                        onClick={(e) => e.stopPropagation()}
                                       >
-                                        <Image src={project.images![currentCarouselIndex]} alt={`${project.title} image ${currentCarouselIndex + 1}`} fill className="object-cover rounded-lg" sizes="(max-width: 768px) 100vw, 50vw" />
+                                        <Image draggable="false" src={project.images![currentCarouselIndex]} alt={`${project.title} image ${currentCarouselIndex + 1}`} fill className="object-cover rounded-lg" sizes="(max-width: 768px) 100vw, 50vw" />
                                      </motion.div>
                                   </AnimatePresence>
                                   {project.images.length > 2 && (
                                     <>
-                                       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-black/50 px-2 py-0.5 text-xs text-white z-10">{currentCarouselIndex + 1} / {project.images!.length}</div>
+                                       <div className="absolute bottom-2 right-2 rounded-full bg-black/50 px-2 py-0.5 text-xs text-white z-10 pointer-events-none">{currentCarouselIndex + 1} / {project.images!.length}</div>
                                     </>
                                   )}
                                 </motion.div>

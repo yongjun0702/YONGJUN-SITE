@@ -34,7 +34,7 @@ export const projectsData: Project[] = [
     ],
     teamInfo: '구성: 프론트엔드 3명, 백엔드 1명, 디자인 1명',
     myRole: '담당 역할: 프론트엔드 개발 (기여도 60%)',
-    images: ['/images/projects/vinteum_01.png', '/images/projects/vinteum_02.png'],
+    images: ['/images/projects/vinteum_01.png', '/images/projects/vinteum_02.png', '/images/projects/vinteum_03.png'],
     appStoreUrl: 'https://apps.apple.com/kr/app/id6740912910',
     playStoreUrl: 'https://play.google.com/store/apps/details?id=lab.aiia.vinteum',
     velogUrl: 'https://velog.io/@yongjun0702/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%9A%8C%EA%B3%A0%EB%A1%9D-%EC%95%B1-%EA%B0%9C%EB%B0%9C%EC%9D%84-%EC%B2%98%EC%9D%8C-%EC%A0%91%ED%95%98%EA%B3%A0-%EC%B6%9C%EC%8B%9C%EA%B9%8C%EC%A7%80-%EA%B1%B8%EC%96%B4%EC%98%A8-%EA%B2%BD%ED%97%98'
