@@ -91,7 +91,7 @@ export function SkillsSection({ categories }: SkillsSectionProps) {
       <div className="container mx-auto max-w-6xl space-y-16">
         <motion.div className="mb-12 text-center md:mb-16" variants={titleVariants}>
           <div className="inline-block relative pb-5.5">
-            <h2 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
+            <h2 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-5xl">
               {skillsContent.title}
             </h2>
             <div className="absolute bottom-0 left-0 w-full h-1.5 rounded-full bg-gradient-to-r from-blue-400 to-cyan-400 dark:from-blue-500 dark:to-cyan-400"></div>

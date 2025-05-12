@@ -16,7 +16,7 @@ const mainContentAnimation = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.8,
+      staggerChildren: 0.6,
     },
   },
 }
@@ -26,7 +26,7 @@ const textItemAnimation = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, ease: 'easeOut' },
+    transition: { duration: 0.7, ease: 'easeOut' },
   },
 }
 
@@ -136,12 +136,13 @@ export function HeroSection() {
                 <MotionLink
                   key={item.name}
                   variants={contactIconAnimation}
+                  whileHover={{ y: -1, transition: { duration: 0.2, ease: "easeInOut" } }}
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={item.ariaLabel}
                   title={item.name}
-                  className="group transition-all duration-200 ease-in-out hover:-translate-y-px focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background dark:focus:ring-offset-neutral-900"
+                  className="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background dark:focus:ring-offset-neutral-900"
                 >
                   <item.IconComponent className="h-5 w-5 text-muted-foreground dark:text-muted-foreground fill-current" />
                 </MotionLink>
