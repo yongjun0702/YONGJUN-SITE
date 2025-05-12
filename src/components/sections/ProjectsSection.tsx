@@ -103,9 +103,7 @@ export function ProjectsSection() {
   const [swipeAnimationDirection, setSwipeAnimationDirection] = useState<Record<string, number>>({});
   const isMobile = useMediaQuery('(max-width: 767px)');
 
-  const touchStartXRef = useRef<Record<string, number>>({});
   const wheelTimeoutRef = useRef<Record<string, ReturnType<typeof setTimeout> | null>>({});
-  const SWIPE_THRESHOLD = 50;
 
   const isDraggingRef = useRef(false);
 
@@ -131,45 +129,6 @@ export function ProjectsSection() {
     });
   }, [setCarouselIndices, setSwipeAnimationDirection]);
 
-  const handleTouchStart = (projectId: string, e: React.TouchEvent) => {
-    if (!projectImagesExistAndMultiple(projectId)) return;
-    e.stopPropagation();
-    touchStartXRef.current = { ...touchStartXRef.current, [projectId]: e.touches[0].clientX };
-  };
-
-  const handleTouchEnd = (projectId: string, e: React.TouchEvent, imageCount: number) => {
-    if (!projectImagesExistAndMultiple(projectId, imageCount)) return;
-    const startX = touchStartXRef.current[projectId];
-    if (startX === undefined) return;
-
-    const touchEndX = e.changedTouches[0].clientX;
-    const deltaX = touchEndX - startX;
-
-    let swiped = false;
-    if (Math.abs(deltaX) > SWIPE_THRESHOLD) {
-      if (deltaX > 0) {
-        handleCarouselNav(projectId, 'prev', imageCount);
-      } else {
-        handleCarouselNav(projectId, 'next', imageCount);
-      }
-      swiped = true;
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { [projectId]: _, ...rest } = touchStartXRef.current;
-    touchStartXRef.current = rest;
-
-    if (swiped) {
-      e.stopPropagation();
-    }
-  };
-
-  const projectImagesExistAndMultiple = useCallback((projectId: string, count?: number) => {
-    const project = projects.find(p => p.id === projectId);
-    if (!project || !project.images) return false;
-    return count !== undefined ? count > 1 : project.images.length > 1;
-  }, [projects]);
-  
   useEffect(() => {
     const timeoutsAtEffectRun = wheelTimeoutRef.current; 
     return () => {
