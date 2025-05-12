@@ -379,7 +379,7 @@ export function ProjectsSection() {
                                           </AnimatePresence>
                                           {project.images.length > 2 && (
                                             <>
-                                               <div className="absolute bottom-2 right-2 rounded-full bg-black/50 px-2 py-0.5 text-xs text-white z-10 pointer-events-none">{currentCarouselIndex + 1} / {project.images!.length}</div>
+                                               <div className="absolute bottom-2 right-2 rounded-full bg-black/50 px-2 py-0.5 text-xs text-white z-10 pointer-events-none">{currentCarouselIndex} / {project.images!.length - 1}</div>
                                             </>
                                           )}
                                         </div>
@@ -482,7 +482,7 @@ export function ProjectsSection() {
                                   </AnimatePresence>
                                   {project.images.length > 2 && (
                                     <>
-                                       <div className="absolute bottom-2 right-2 rounded-full bg-black/50 px-2 py-0.5 text-xs text-white z-10 pointer-events-none">{currentCarouselIndex + 1} / {project.images!.length}</div>
+                                       <div className="absolute bottom-2 right-2 rounded-full bg-black/50 px-2 py-0.5 text-xs text-white z-10 pointer-events-none">{currentCarouselIndex} / {project.images!.length - 1}</div>
                                     </>
                                   )}
                                 </motion.div>
