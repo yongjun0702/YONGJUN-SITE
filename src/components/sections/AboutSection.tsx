@@ -43,7 +43,7 @@ export function AboutSection() {
   return (
     <section
       id="about"
-      className='w-full bg-background px-4 py-16 md:px-6 md:py-24 lg:py-32 mb-32'
+      className='w-full bg-background px-4 py-16 md:px-6 md:py-24 lg:py-32 mb-64 md:mb-32'
     >
       <div ref={contentRef} className="container mx-auto max-w-3xl space-y-1 text-center">
         <p className="text-base xs:text-2xl sm:text-2xl md:text-2xl font-semibold text-foreground mb-6">

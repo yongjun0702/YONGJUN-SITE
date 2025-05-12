@@ -39,29 +39,30 @@ const backgroundTextAnimation = {
   },
 }
 
-const iconListAnimation = {
+const contactSectionAnimation = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
+    transition: { duration: 0.4, ease: 'easeOut' },
+  },
+}
+
+const contactIconsParentAnimation = {
+  hidden: {},
+  visible: {
     transition: {
-      delayChildren: 0.1,
-      staggerChildren: 0.1,
+      staggerChildren: 0.08,
     },
   },
 }
 
-const iconFadeInAnimation = { 
-  hidden: {
-    opacity: 0,
-  },
+const contactIconAnimation = {
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: {
-      duration: 0.15, 
-      ease: "easeOut",
-    },
+    transition: { duration: 0.3, ease: 'easeOut' },
   },
-};
+}
 
 const MotionLink = motion.create(Link)
 
@@ -116,7 +117,7 @@ export function HeroSection() {
         </motion.h1>
 
         <motion.div
-          variants={iconListAnimation}
+          variants={contactSectionAnimation}
           className="mt-8"
         >
           <div className="flex items-center justify-center">
@@ -127,11 +128,14 @@ export function HeroSection() {
               <div className="ml-3 mr-3 h-4 w-px bg-muted-foreground/40 sm:mr-4"></div>
             </div>
             
-            <div className="flex items-center gap-3 sm:gap-4">
+            <motion.div
+              className="flex items-center gap-3 sm:gap-4"
+              variants={contactIconsParentAnimation}
+            >
               {contactData.map((item) => (
                 <MotionLink
                   key={item.name}
-                  variants={iconFadeInAnimation}
+                  variants={contactIconAnimation}
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -142,7 +146,7 @@ export function HeroSection() {
                   <item.IconComponent className="h-5 w-5 text-muted-foreground dark:text-muted-foreground fill-current" />
                 </MotionLink>
               ))}
-            </div>
+            </motion.div>
           </div>
         </motion.div>
       </motion.div>

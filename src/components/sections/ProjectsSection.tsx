@@ -61,6 +61,24 @@ function CustomBadge({ children, className = '', borderColorClass = 'border-tran
 
 const sectionTitle = 'Projects';
 
+const projectCardVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { duration: 0.5, ease: "easeOut" }
+  },
+};
+
+const titleContainerVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { duration: 0.5, ease: "easeOut", delay: 0.1 }
+  },
+};
+
 export function ProjectsSection() {
   const projects: Project[] = getAllProjects();
   const [expandedProjects, setExpandedProjects] = useState<Record<string, boolean>>({});
@@ -208,11 +226,20 @@ export function ProjectsSection() {
       className='w-full bg-background px-4 py-16 md:px-6 md:py-24 lg:py-32'
     >
       <div className="container mx-auto max-w-6xl space-y-16 md:space-y-20">
-        <div className="space-y-4 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
-            {sectionTitle}
-          </h2>
-        </div>
+        <motion.div
+          className="mb-12 text-center md:mb-16"
+          variants={titleContainerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          <div className="inline-block relative pb-5.5">
+            <h2 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
+              {sectionTitle}
+            </h2>
+            <div className="absolute bottom-0 left-0 w-full h-1.5 rounded-full bg-gradient-to-r from-blue-400 to-cyan-400 dark:from-blue-500 dark:to-cyan-400"></div>
+          </div>
+        </motion.div>
 
         <div className="flex flex-wrap justify-center gap-8 lg:gap-12">
           {projects.map((project) => {
@@ -227,8 +254,11 @@ export function ProjectsSection() {
             return (
               <motion.div
                 layout="position"
-                transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
                 key={project.id}
+                variants={projectCardVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }}
                 onClick={() => toggleExpand(project.id)}
                 className={`relative w-full max-w-5xl rounded-lg border border-border bg-card transition-colors hover:border-primary overflow-hidden cursor-pointer ${
                   isExpanded
@@ -247,8 +277,8 @@ export function ProjectsSection() {
                               {project.statusTags.map((tag) => (
                                   <CustomBadge 
                                     key={tag} 
-                                    className="bg-primary/10 text-primary"
-                                    borderColorClass="border-primary/30"
+                                    className="rounded-full bg-secondary text-secondary-foreground px-3"
+                                    borderColorClass="border-transparent"
                                   >
                                     {tag}
                                   </CustomBadge>

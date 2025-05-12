@@ -89,15 +89,18 @@ export function SkillsSection({ categories }: SkillsSectionProps) {
       viewport={{ once: true, amount: 0.05 }}
     >
       <div className="container mx-auto max-w-6xl space-y-16">
-        <motion.div className="space-y-4 text-center" variants={titleVariants}>
-          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
-            {skillsContent.title}
-          </h2>
+        <motion.div className="mb-12 text-center md:mb-16" variants={titleVariants}>
+          <div className="inline-block relative pb-5.5">
+            <h2 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
+              {skillsContent.title}
+            </h2>
+            <div className="absolute bottom-0 left-0 w-full h-1.5 rounded-full bg-gradient-to-r from-blue-400 to-cyan-400 dark:from-blue-500 dark:to-cyan-400"></div>
+          </div>
         </motion.div>
 
         <div className="flex justify-center">
             <motion.div 
-                        className="grid grid-cols-1 gap-y-12 md:grid-cols-3 w-full max-w-5xl"
+                        className="grid grid-cols-1 gap-y-12 md:grid-cols-3 w-full max-w-5xl gap-y-18"
             >
                         {categories.map((category, categoryIndex) => (
                             <motion.div
@@ -113,13 +116,17 @@ export function SkillsSection({ categories }: SkillsSectionProps) {
                                     {category.categoryName}
                                 </h3>
 
-                                <ul className="list-none space-y-4 flex flex-col items-center"> 
-                                    {category.skills.map((skill) => {
+                                <ul className="list-none grid grid-cols-2 gap-x-6 gap-y-4 md:flex md:flex-col md:items-center md:space-y-2"> 
+                                    {category.skills.map((skill, skillIndex) => {
                                         const IconComponent = skill.iconName ? (iconMap[skill.iconName] || FaCode) : FaCode;
+                                        const isLastItem = skillIndex === category.skills.length - 1;
+                                        const isOddNumberOfSkills = category.skills.length % 2 !== 0;
                                         return (
                                             <motion.li 
                                                 key={skill.name} 
-                                                className="flex items-center gap-4" 
+                                                className={`flex items-center gap-4 ${
+                                                  isOddNumberOfSkills && isLastItem ? 'md:flex md:items-center col-span-2 flex justify-center' : ''
+                                                }`}
                                                 variants={skillItemVariants}
                                             >
                                                 <IconComponent className="h-6 w-6 flex-shrink-0 text-muted-foreground" /> 
