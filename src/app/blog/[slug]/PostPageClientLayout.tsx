@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, memo } from 'react';
 import { motion } from 'framer-motion';
 import type { Post } from '@/types/blog';
 import TableOfContentsWrapper from '@/components/blog/TableOfContentsWrapper';
@@ -8,14 +8,24 @@ import { BlogPostAnimatedContent } from '@/components/blog/BlogPostAnimatedConte
 
 interface PostPageClientLayoutProps {
   post: Post;
+  prevPost?: { title: string; slug: string } | null;
+  nextPost?: { title: string; slug: string } | null;
 }
 
-export default function PostPageClientLayout({ post }: PostPageClientLayoutProps) {
+const MemoizedTOC = memo(function TOC({ postContent }: { postContent: string }) {
+  return <TableOfContentsWrapper postContent={postContent} />;
+});
+
+export default function PostPageClientLayout({ post, prevPost, nextPost }: PostPageClientLayoutProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
-    setIsLoaded(true);
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 10);
+    
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -25,6 +35,8 @@ export default function PostPageClientLayout({ post }: PostPageClientLayoutProps
           <div className="max-w-[48rem] w-full relative" ref={contentRef}>
             <BlogPostAnimatedContent 
               post={post} 
+              prevPost={prevPost}
+              nextPost={nextPost}
               showNavigation={true}
               className="w-full"
             />
@@ -37,7 +49,7 @@ export default function PostPageClientLayout({ post }: PostPageClientLayoutProps
               transition={{ delay: 0.6, duration: 0.5 }}
               className="w-64 sticky top-24"
             >
-              <TableOfContentsWrapper postContent={post.content || ''} />
+              <MemoizedTOC postContent={post.content || ''} />
             </motion.div>
           </div>
         </div>

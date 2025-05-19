@@ -4,6 +4,7 @@ import type { Post } from '@/types/blog'
 import { Suspense } from 'react'
 import { BlogPostGrid } from '@/app/blog/BlogPostGrid'
 import { Metadata } from 'next'
+import { cache } from 'react'
 
 export const revalidate = 60
 
@@ -48,6 +49,43 @@ if (typeof document !== 'undefined') {
   style.innerHTML = animationStyles;
   document.head.appendChild(style);
 }
+
+const fetchPosts = cache(async () => {
+  const supabase = await createClient(false)
+  
+  const { data, error } = await supabase
+    .from('posts')
+    .select('id, title, slug, created_at, meta_description, published_at, status, tags, og_image_url')
+    .eq('status', 'published')
+    .order('published_at', { ascending: false })
+    
+  if (error) throw new Error(error.message)
+  return data as Post[]
+})
+
+const fetchTags = cache(async () => {
+  const supabase = await createClient(false)
+  
+  const { data, error } = await supabase
+    .from('posts')
+    .select('tags')
+    .eq('status', 'published')
+    
+  if (error) throw new Error(error.message)
+  
+  const allTags = ['전체보기']
+  data?.forEach(post => {
+    if (Array.isArray(post.tags)) {
+      post.tags.forEach(tag => {
+        if (!allTags.includes(tag)) {
+          allTags.push(tag)
+        }
+      })
+    }
+  })
+  
+  return allTags
+})
 
 export default async function BlogPage({
   searchParams,
@@ -121,6 +159,7 @@ function CategoryLink({ tag, active }: { tag: string; active: boolean }) {
   return (
     <Link 
       href={tag === '전체보기' ? '/blog' : `/blog?tag=${tag}`}
+      prefetch={true}
     >
       <div className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
         active
@@ -136,28 +175,7 @@ function CategoryLink({ tag, active }: { tag: string; active: boolean }) {
 }
 
 async function BlogCategories({ activeTag }: { activeTag: string }) {
-  const supabase = await createClient(false)
-
-  const { data: tags, error } = await supabase
-    .from('posts')
-    .select('tags')
-    .eq('status', 'published')
-  
-  if (error) {
-    console.error('Error fetching tags:', error)
-    return null
-  }
-  
-  const allTags = ['전체보기']
-  tags?.forEach(post => {
-    if (Array.isArray(post.tags)) {
-      post.tags.forEach(tag => {
-        if (!allTags.includes(tag)) {
-          allTags.push(tag)
-        }
-      })
-    }
-  })
+  const allTags = await fetchTags()
   
   return (
     <div className="mb-10 mt-2 relative">
@@ -233,26 +251,13 @@ function SimpleTags({ tags }: { tags: string[] }) {
 }
 
 async function BlogPosts({ activeTag }: { activeTag: string }) {
-  const supabase = await createClient(false)
-
-  const query = supabase
-    .from('posts')
-    .select('id, title, slug, created_at, meta_description, published_at, status, tags, og_image_url')
-    .eq('status', 'published')
-    .order('published_at', { ascending: false })
-  
-  const { data: posts, error } = await query
-
-  if (error) {
-    console.error('Error fetching posts:', error)
-    return <div className="py-12 text-center">블로그 게시물을 불러오는 데 실패했습니다.</div>
-  }
+  const posts = await fetchPosts()
 
   if (!posts || posts.length === 0) {
     return <div className="py-12 text-center">아직 게시된 블로그 글이 없습니다.</div>
   }
 
-  const typedPosts: Post[] = posts as any;
+  const typedPosts: Post[] = posts;
   
   const filteredPosts = activeTag === '전체보기'
     ? typedPosts

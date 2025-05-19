@@ -4,6 +4,7 @@ import type { Metadata, ResolvingMetadata } from 'next'
 import type { Post } from '@/types/blog'
 import { Suspense } from 'react'
 import PostPageClientLayout from './PostPageClientLayout'
+import { cache } from 'react'
 
 export const revalidate = 60;
 
@@ -64,20 +65,61 @@ type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
+const fetchPostBySlug = cache(async (slug: string) => {
+  const supabase = await createClient(false);
+  
+  const { data, error } = await supabase
+    .from('posts')
+    .select('id, title, content, published_at, created_at, meta_description, tags, og_image_url, status, slug')
+    .eq('slug', slug)
+    .eq('status', 'published')
+    .single<Post>()
+    
+  if (error || !data) {
+    return null;
+  }
+  
+  return data;
+})
+
+const fetchNavigation = cache(async (publishedAt: string, slug: string) => {
+  const supabase = await createClient(false);
+  
+  const [prevPostResult, nextPostResult] = await Promise.all([
+    supabase
+      .from('posts')
+      .select('title, slug')
+      .eq('status', 'published')
+      .lt('published_at', publishedAt)
+      .neq('slug', slug)
+      .order('published_at', { ascending: false })
+      .limit(1)
+      .maybeSingle(),
+      
+    supabase
+      .from('posts')
+      .select('title, slug')
+      .eq('status', 'published')
+      .gt('published_at', publishedAt)
+      .neq('slug', slug)
+      .order('published_at', { ascending: true })
+      .limit(1)
+      .maybeSingle()
+  ]);
+  
+  return {
+    prevPost: prevPostResult.data,
+    nextPost: nextPostResult.data
+  };
+})
+
 export async function generateMetadata(
   { params, searchParams }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const awaitedParams = await params;
-  const supabase = await createClient(false);
+  const postMeta = await fetchPostBySlug(awaitedParams.slug);
   
-  const { data: postMeta } = await supabase
-    .from('posts')
-    .select('title, meta_description, og_image_url, tags')
-    .eq('slug', awaitedParams.slug)
-    .eq('status', 'published')
-    .single<Pick<Post, 'title' | 'meta_description' | 'og_image_url' | 'tags'>>()
-
   if (!postMeta) {
     return { title: '게시물을 찾을 수 없습니다' }
   }
@@ -87,7 +129,7 @@ export async function generateMetadata(
   const previousImages = (await parent).openGraph?.images || []
   const keywords = postMeta.tags || [];
 
-  const metadataResult = {
+  return {
     title: `${pageTitle} | Yongjun Jo`,
     description: description,
     keywords: keywords,
@@ -105,8 +147,7 @@ export async function generateMetadata(
       description: description,
       images: postMeta.og_image_url ? [postMeta.og_image_url] : undefined,
     },
-  }
-  return metadataResult;
+  };
 }
 
 export default async function PostPage({
@@ -114,24 +155,23 @@ export default async function PostPage({
   searchParams,
 }: Props) {
   const awaitedParams = await params;
-  const supabase = await createClient(false);
+  const post = await fetchPostBySlug(awaitedParams.slug);
 
-  const { data: post, error } = await supabase
-    .from('posts')
-    .select('id, title, content, published_at, created_at, meta_description, tags, og_image_url, status, slug')
-    .eq('slug', awaitedParams.slug)
-    .eq('status', 'published')
-    .single<Post>()
-
-  if (error || !post) {
-    console.error('Error fetching post or post not found:', awaitedParams.slug, error);
+  if (!post) {
+    console.error('Error fetching post or post not found:', awaitedParams.slug);
     notFound();
   }
+  
+  const navigation = await fetchNavigation(post.published_at || post.created_at, post.slug);
 
   return (
     <div className="relative pb-12">
       <Suspense fallback={<BlogPostSkeleton />}>
-        <PostPageClientLayout post={post} />
+        <PostPageClientLayout 
+          post={post} 
+          prevPost={navigation.prevPost} 
+          nextPost={navigation.nextPost} 
+        />
       </Suspense>
     </div>
   );

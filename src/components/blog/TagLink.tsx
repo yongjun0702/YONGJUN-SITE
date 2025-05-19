@@ -1,35 +1,29 @@
 'use client'
 
 import Link from 'next/link'
-import { CustomBadge } from '@/components/ui/CustomBadge'
+import React from 'react'
 
 interface TagLinkProps {
   tag: string
-  className?: string
   stopPropagation?: boolean
-  noLink?: boolean
 }
 
-export function TagLink({ tag, className = '', stopPropagation = false, noLink = false }: TagLinkProps) {
-  const badgeContent = (
-    <CustomBadge 
-      className={`bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground transition-colors ${className}`}
-      borderColorClass="border-border"
-    >
-      {tag}
-    </CustomBadge>
-  );
-
-  if (noLink) {
-    return badgeContent;
+export const TagLink: React.FC<TagLinkProps> = ({ tag, stopPropagation = false }) => {
+  const handleClick = (e: React.MouseEvent) => {
+    if (stopPropagation) {
+      e.preventDefault()
+      e.stopPropagation()
+      window.location.href = `/blog?tag=${tag}`
+    }
   }
 
   return (
     <Link 
-      href={`/blog?tag=${tag}`}
-      onClick={stopPropagation ? (e) => e.stopPropagation() : undefined}
+      href={`/blog?tag=${tag}`} 
+      onClick={handleClick}
+      className="inline-block px-3 py-1 bg-card border border-border/60 text-xs font-medium rounded-full text-muted-foreground hover:text-primary hover:border-primary/30 transition-colors"
     >
-      {badgeContent}
+      {tag}
     </Link>
   )
 } 
