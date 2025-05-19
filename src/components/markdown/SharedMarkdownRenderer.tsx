@@ -48,16 +48,16 @@ export const SharedMarkdownRenderer: React.FC<SharedMarkdownRendererProps> = ({
   const blockquoteClass = "my-6 border-l-4 border-primary dark:border-primary pl-4 pr-2 py-3 bg-neutral-50 dark:bg-neutral-900 text-gray-600 dark:text-gray-300 text-sm md:text-base leading-tight";
   
   const preClass = isPreview
-    ? "my-6 p-4 rounded-lg bg-neutral-100 dark:bg-neutral-900 overflow-x-auto"
-    : "my-7 p-5 rounded-lg bg-neutral-100 dark:bg-neutral-900 overflow-x-auto";
+    ? "my-6 p-4 bg-stone-50 dark:bg-neutral-800 overflow-x-auto"
+    : "my-7 p-5 bg-stone-50 dark:bg-neutral-800 overflow-x-auto";
   
   const inlineCodeClass = isPreview
-    ? "px-1.5 py-0.5 rounded-md bg-neutral-100 dark:bg-neutral-800 text-sm"
-    : "px-1.5 py-0.5 rounded-md bg-neutral-100 dark:bg-neutral-800 text-sm md:text-base";
+    ? "px-1.5 py-0.5 bg-stone-50 dark:bg-neutral-800 text-sm text-gray-800 dark:text-gray-200"
+    : "px-1.5 py-0.5 bg-stone-50 dark:bg-neutral-800 text-sm md:text-base text-gray-800 dark:text-gray-200";
   
   const blockCodeClass = isPreview
-    ? "text-sm"
-    : "text-sm md:text-base";
+    ? "text-sm text-gray-800 dark:text-gray-200"
+    : "text-sm md:text-base text-gray-800 dark:text-gray-200";
   
   const ulClass = isPreview
     ? "my-4 list-disc pl-6 space-y-2"

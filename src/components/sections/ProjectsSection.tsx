@@ -183,7 +183,7 @@ export function ProjectsSection() {
                   }
                   isDraggingRef.current = false;
                 }}
-                className={`relative w-full max-w-5xl rounded-lg border border-border bg-card transition-colors hover:border-primary overflow-hidden cursor-pointer ${
+                className={`relative w-full max-w-5xl rounded-lg border border-border bg-card transition-all duration-200 hover:border-zinc-400/70 dark:hover:border-zinc-500/70 hover:shadow-sm overflow-hidden cursor-pointer ${
                   isExpanded
                     ? `grid grid-cols-1 md:grid-cols-2 items-center gap-0 md:gap-8 p-6 md:p-8`
                     : 'flex flex-col md:flex-row p-6 md:p-8 md:gap-0'
@@ -193,7 +193,7 @@ export function ProjectsSection() {
                   className={`flex flex-col gap-4 ${isExpanded ? 'md:col-span-1 md:self-start' : 'w-full md:w-[50%] md:pr-8'}`}
                 >
                   <div> 
-                      <h3 className="text-xl font-semibold text-foreground sm:text-2xl">{project.title}</h3>
+                      <h3 className="text-xl font-semibold text-foreground sm:text-2xl group-hover:text-foreground/80 dark:group-hover:text-foreground/90 transition-colors">{project.title}</h3>
                       <p className="mt-1 text-sm text-muted-foreground">{project.period}</p>
                       {project.statusTags && project.statusTags.length > 0 && (
                           <div className="mt-3 flex flex-wrap gap-2">

@@ -9,11 +9,11 @@ import { cache } from 'react'
 export const revalidate = 60
 
 export const metadata: Metadata = {
-  title: "Yongjun Jo | 개발과 기술, 생각들을 공유합니다.",
-  description: "프론트엔드 개발자 조용준의 블로그입니다. 개발과 기술, 생각들을 공유합니다.",
+  title: "Yongjun Jo | 개발과 기술, 생각을 공유합니다.",
+  description: "프론트엔드 개발자 조용준의 블로그입니다. 개발과 기술, 생각을 공유합니다.",
   openGraph: {
-    title: "Yongjun Jo | 개발과 기술, 생각들을 공유합니다.",
-    description: "프론트엔드 개발자 조용준의 블로그입니다. 개발과 기술, 생각들을 공유합니다.",
+    title: "Yongjun Jo | 개발과 기술, 생각을 공유합니다.",
+    description: "프론트엔드 개발자 조용준의 블로그입니다. 개발과 기술, 생각을 공유합니다.",
     url: "https://yongjun.site/blog",
     images: [
       {
@@ -113,7 +113,7 @@ export default async function BlogPage({
               Blog
             </h1>
             <p className="text-base md:text-lg text-muted-foreground max-w-2xl">
-              개발과 기술, 생각들을 공유합니다.
+              개발과 기술, 생각을 공유합니다.
             </p>
           </div>
         </div>

@@ -26,24 +26,18 @@ const PostCard = memo(function PostCard({ post, onClick }: { post: Post, onClick
   return (
     <motion.div 
       variants={{
-        hidden: { opacity: 0, y: 0 },
+        hidden: { opacity: 0, y: 50 },
         visible: { 
-          opacity: 1,
-          y: 0,
-          transition: {
-            type: "spring",
-            stiffness: 260,
-            damping: 20,
-            duration: 0.4
-          }
+          opacity: 1, 
+          y: 0, 
+          transition: { duration: 0.5, ease: "easeOut" }
         }
       }}
-      whileHover={{ transition: { duration: 0.2 } }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
       className="group flex flex-col h-full cursor-pointer"
     >
-      <div className="rounded-lg overflow-hidden border border-border hover:border-primary transition-all duration-200 h-full flex flex-col bg-card group-hover:scale-[1.02] group-hover:shadow-lg">
+      <div className="rounded-lg overflow-hidden border border-border bg-card h-full flex flex-col transition-all duration-200 hover:border-zinc-400/70 dark:hover:border-zinc-500/70 hover:shadow-sm">
         <div className="relative aspect-[2/1] w-full overflow-hidden">
           {post.og_image_url ? (
             <Image
@@ -51,7 +45,7 @@ const PostCard = memo(function PostCard({ post, onClick }: { post: Post, onClick
               alt={post.title}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="object-cover transition-all duration-200"
+              className="object-cover"
               loading="eager"
               priority={true}
             />
@@ -63,7 +57,7 @@ const PostCard = memo(function PostCard({ post, onClick }: { post: Post, onClick
         </div>
         
         <div className="p-4 flex-grow flex flex-col">
-          <h2 className="text-lg font-bold text-foreground group-hover:text-primary transition-all duration-200 mb-2">
+          <h2 className="text-lg font-bold text-foreground mb-2 group-hover:text-foreground/80 dark:group-hover:text-foreground/90 transition-colors">
             {post.title}
           </h2>
           
@@ -105,8 +99,6 @@ export function BlogPostGrid({ posts }: { posts: Post[] }) {
     visible: { 
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.05
       }
     }
   };
