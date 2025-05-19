@@ -52,7 +52,7 @@ if (typeof document !== 'undefined') {
 export default async function BlogPage({
   searchParams,
 }: {
-  searchParams: { tag?: string }
+  searchParams: Promise<{ tag?: string }>
 }) {
   const activeTag = (await searchParams).tag || '전체보기'
 
