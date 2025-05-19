@@ -80,9 +80,67 @@ const config = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
+      typography: (theme: any) => ({
+        DEFAULT: {
+          css: {
+            h2: {
+              fontSize: theme('fontSize.2xl'),
+              fontWeight: theme('fontWeight.semibold'),
+              borderBottomWidth: '1px',
+              borderBottomColor: theme('colors.gray.300'),
+              paddingBottom: theme('spacing.2'),
+              marginTop: theme('spacing.12'),
+              marginBottom: theme('spacing.5'),
+            },
+            p: {
+              marginTop: theme('spacing.5'),
+              marginBottom: theme('spacing.6'),
+            },
+            blockquote: {
+              fontStyle: 'normal',
+              color: theme('colors.gray.700'),
+              borderLeftWidth: '4px',
+              borderLeftColor: theme('colors.gray.400'),
+              paddingTop: theme('spacing.3'),
+              paddingBottom: theme('spacing.3'),
+              paddingLeft: theme('spacing.4'),
+              paddingRight: theme('spacing.4'),
+              backgroundColor: theme('colors.gray.50'),
+              quotes: 'none',
+              p: {
+                fontSize: theme('fontSize.base'),
+                fontWeight: '400',
+                marginTop: theme('spacing.1'),
+                marginBottom: theme('spacing.1'),
+              },
+            },
+          },
+        },
+        invert: {
+          css: {
+            h2: {
+              borderBottomColor: theme('colors.gray.700'),
+            },
+            blockquote: {
+              color: theme('colors.gray.300'),
+              borderLeftColor: theme('colors.gray.600'),
+              backgroundColor: theme('colors.gray.800'),
+            },
+          },
+        },
+        lg: {
+          css: {
+            h2: {
+              fontSize: theme('fontSize.3xl'),
+              marginTop: theme('spacing.14'),
+              marginBottom: theme('spacing.6'),
+            },
+          },
+        },
+      }),
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 } satisfies Config
 
 export default config 

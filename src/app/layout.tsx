@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import localFont from 'next/font/local';
 import Script from 'next/script';
 import "./globals.css";
-import { Header } from "@/components/shared/Header";
-import { Footer } from "@/components/shared/Footer";
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { AnimationProvider } from "@/components/providers/AnimationProvider";
+import { ClientHeader, ClientFooter } from "@/components/shared/ClientComponents";
 
 const pretendard = localFont({
   src: [
@@ -132,9 +132,11 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
         >
-          <Header />
-          <main className="flex-grow">{children}</main>
-          <Footer />
+          <ClientHeader />
+          <AnimationProvider>
+            {children}
+          </AnimationProvider>
+          <ClientFooter />
           <Analytics />
           <SpeedInsights />
         </ThemeProvider>
