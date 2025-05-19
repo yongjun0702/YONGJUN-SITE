@@ -56,14 +56,15 @@ function BlogPostSkeleton() {
 }
 
 type Props = {
-  params: { slug: string }
+  params: { slug: string };
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
 export async function generateMetadata(
-  { params }: Props,
+  { params, searchParams }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const { slug } = params;
+  const { slug } = await params;
   const supabase = await createClient(false);
   const { data: post } = await supabase
     .from('posts')
@@ -102,8 +103,11 @@ export async function generateMetadata(
   }
 }
 
-export default async function PostPage({ params }: Props) {
-  const { slug } = params;
+export default async function PostPage({
+  params,
+  searchParams,
+}: Props) {
+  const { slug } = await params;
   const supabase = await createClient(false);
 
   const { data: post, error } = await supabase
