@@ -126,7 +126,15 @@ export const SharedMarkdownRenderer: React.FC<SharedMarkdownRendererProps> = ({
             if (!src) return null;
             
             return isPreview ? (
-              <img src={src} alt={alt || ""} className={imgClass} />
+              <Image 
+                src={src.toString()} 
+                alt={alt || ""} 
+                width={500}
+                height={300}
+                className={imgClass}
+                unoptimized={true}
+                style={{ maxWidth: '100%', height: 'auto' }}
+              />
             ) : (
               <MarkdownImage src={src.toString()} alt={alt || ""} />
             );

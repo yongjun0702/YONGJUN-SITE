@@ -63,7 +63,7 @@ export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug } = params;
   const supabase = await createClient(false);
   const { data: post } = await supabase
     .from('posts')
@@ -103,7 +103,7 @@ export async function generateMetadata(
 }
 
 export default async function PostPage({ params }: Props) {
-  const { slug } = await params;
+  const { slug } = params;
   const supabase = await createClient(false);
 
   const { data: post, error } = await supabase
