@@ -45,7 +45,7 @@ export const SharedMarkdownRenderer: React.FC<SharedMarkdownRendererProps> = ({
     ? "my-4"
     : "text-base md:text-lg my-5 leading-relaxed";
   
-  const blockquoteClass = "my-6 border-l-4 border-primary dark:border-primary pl-4 pr-2 py-3 bg-neutral-50 dark:bg-neutral-900 text-gray-700 dark:text-gray-300 text-base md:text-lg leading-tight";
+  const blockquoteClass = "my-6 border-l-4 border-primary dark:border-primary pl-4 pr-2 py-3 bg-neutral-50 dark:bg-neutral-900 text-gray-600 dark:text-gray-300 text-sm md:text-base leading-tight";
   
   const preClass = isPreview
     ? "my-6 p-4 rounded-lg bg-neutral-100 dark:bg-neutral-900 overflow-x-auto"
@@ -131,6 +131,7 @@ export const SharedMarkdownRenderer: React.FC<SharedMarkdownRendererProps> = ({
                 alt={alt || ""} 
                 width={500}
                 height={300}
+                loading="lazy"
                 className={imgClass}
                 unoptimized={true}
                 style={{ maxWidth: '100%', height: 'auto' }}

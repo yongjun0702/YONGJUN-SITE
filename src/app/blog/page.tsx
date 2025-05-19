@@ -96,19 +96,19 @@ function BlogCategoriesLoading() {
   return (
     <div className="mb-10 mt-2 relative">
       <div 
-        className="flex whitespace-nowrap overflow-x-auto pb-4 pl-2"
+        className="flex whitespace-nowrap overflow-x-auto pb-4 pt-1 px-2"
         style={{ 
           msOverflowStyle: 'none', 
           scrollbarWidth: 'none',
           WebkitOverflowScrolling: 'touch'
         }}
       >
-        {['전체보기', '카테고리1', '카테고리2'].map((category, index) => (
+        {['전체보기', '카테고리1', '카테고리2', '카테고리3', '카테고리4'].map((category, index) => (
           <div 
             key={index} 
-            className="px-4 py-2 rounded-full bg-muted animate-pulse mr-3 flex-shrink-0"
+            className="px-4 py-2 rounded-full bg-card border border-border/60 mr-2 flex-shrink-0"
+            style={{ minWidth: '80px', height: '38px' }}
           >
-            <div className="h-5 w-16 bg-muted-foreground/20 rounded-md"></div>
           </div>
         ))}
       </div>
@@ -188,11 +188,25 @@ function BlogPostListSkeleton() {
           <div key={index} className="group flex flex-col h-full">
             <div className="rounded-lg overflow-hidden border border-border h-full flex flex-col bg-card animate-pulse">
               <div className="relative aspect-[2/1] w-full bg-muted"></div>
-              <div className="p-4">
-                <div className="h-6 bg-muted rounded w-3/4 mb-3"></div>
-                <div className="h-4 bg-muted rounded w-full mb-2"></div>
-                <div className="h-4 bg-muted rounded w-full mb-2"></div>
-                <div className="h-3 bg-muted rounded w-1/4 mt-3"></div>
+              <div className="p-4 flex flex-col h-full">
+                <div className="h-7 bg-muted rounded w-3/4 mb-3"></div>
+                
+                <div className="space-y-2 mb-4">
+                  <div className="h-4 bg-muted rounded w-full"></div>
+                  <div className="h-4 bg-muted rounded w-5/6"></div>
+                </div>
+                
+                <div className="flex flex-wrap gap-2 mb-3 mt-auto">
+                  {[...Array(Math.floor(Math.random() * 3) + 1)].map((_, i) => (
+                    <div 
+                      key={i} 
+                      className="h-6 px-3 py-1 rounded-full border border-border/60" 
+                      style={{ width: `${50 + Math.random() * 30}px` }}
+                    ></div>
+                  ))}
+                </div>
+                
+                <div className="h-3 bg-muted rounded w-1/4"></div>
               </div>
             </div>
           </div>

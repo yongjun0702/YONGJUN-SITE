@@ -28,23 +28,21 @@ export function BlogPostGrid({ posts }: { posts: Post[] }) {
     router.push(`/blog/${slug}`);
   };
 
-  // 스태거 애니메이션 효과를 위한 컨테이너 변형
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { 
       opacity: 1,
       transition: {
-        staggerChildren: 0.08,
+        staggerChildren: 0,
         delayChildren: 0.1
       }
     }
   };
 
-  // 개별 카드 애니메이션
   const cardVariants = {
     hidden: { 
       opacity: 0,
-      y: 20
+      y: 0
     },
     visible: { 
       opacity: 1,
@@ -52,7 +50,8 @@ export function BlogPostGrid({ posts }: { posts: Post[] }) {
       transition: {
         type: "spring",
         stiffness: 260,
-        damping: 20
+        damping: 20,
+        duration: 0.4
       }
     }
   };

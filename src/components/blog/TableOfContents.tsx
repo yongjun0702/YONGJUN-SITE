@@ -33,15 +33,20 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
         setActiveId(visibleHeadings[0].id);
       },
       {
-        rootMargin: '-10% 0% -80% 0%',  
-        threshold: 0.1
+        rootMargin: '-5% 0% -70% 0%',  
+        threshold: [0, 0.1, 0.5, 1]
       }
     );
 
-    headings.forEach(heading => {
-      const element = document.getElementById(heading.id);
-      if (element) observer.observe(element);
-    });
+    const observeElements = () => {
+      headings.forEach(heading => {
+        const element = document.getElementById(heading.id);
+        if (element) observer.observe(element);
+      });
+    };
+
+    observeElements();
+    setTimeout(observeElements, 200);
 
     if (headings.length > 0 && !activeId) {
       setActiveId(headings[0].id);
@@ -50,9 +55,38 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
     return () => observer.disconnect();
   }, [headings, activeId]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (headings.length === 0) return;
+
+      let closestHeading = null;
+      let closestDistance = Infinity;
+
+      for (const heading of headings) {
+        const element = document.getElementById(heading.id);
+        if (!element) continue;
+        
+        const rect = element.getBoundingClientRect();
+        const distance = Math.abs(rect.top - 100);
+        
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestHeading = heading;
+        }
+      }
+
+      if (closestHeading && closestHeading.id !== activeId) {
+        setActiveId(closestHeading.id);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [headings, activeId]);
+
   if (headings.length === 0) {
     return (
-      <nav className="text-sm">
+      <nav className="text-sm w-64 ml-4 max-h-[calc(100vh-8rem)] overflow-y-auto">
         <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">목차</h3>
         <p className="text-gray-500 dark:text-gray-400">이 게시물에는 목차가 없습니다.</p>
       </nav>
@@ -60,7 +94,7 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
   }
 
   return (
-    <nav className="text-sm">
+    <nav className="text-sm w-64 ml-4 max-h-[calc(100vh-8rem)] overflow-y-auto">
       <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">목차</h3>
       <ul className="space-y-1.5">
         {headings.map(heading => {

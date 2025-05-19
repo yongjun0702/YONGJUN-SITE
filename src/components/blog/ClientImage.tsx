@@ -16,7 +16,7 @@ export function FeaturedImage({ src, alt, className = '' }: ImageProps) {
         src={src} 
         alt={alt} 
         fill 
-        priority
+        loading="lazy"
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 800px, 1200px"
         className="object-cover"
       />
@@ -35,6 +35,7 @@ export function MarkdownImage({ src, alt, className = '' }: ImageProps) {
           alt={alt} 
           width={800} 
           height={500}
+          loading="lazy"
           className={`mx-auto max-w-full ${className}`}
           style={{ height: 'auto' }}
         />
@@ -49,6 +50,7 @@ export function MarkdownImage({ src, alt, className = '' }: ImageProps) {
         alt={alt} 
         width={800}
         height={500}
+        loading="lazy"
         className={`mx-auto max-w-full h-auto ${className}`}
         style={{ height: 'auto' }}
         unoptimized={true}
