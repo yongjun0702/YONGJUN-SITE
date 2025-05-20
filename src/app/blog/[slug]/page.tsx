@@ -119,7 +119,7 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const awaitedParams = await params;
   const postMeta = await fetchPostBySlug(awaitedParams.slug);
-  
+
   if (!postMeta) {
     return { title: '게시물을 찾을 수 없습니다' }
   }

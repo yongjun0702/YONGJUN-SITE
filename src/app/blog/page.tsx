@@ -132,9 +132,9 @@ export default async function BlogPage({
 
 function BlogCategoriesLoading() {
   return (
-    <div className="mb-10 mt-2 relative">
+    <div className="mb-8 relative">
       <div 
-        className="flex whitespace-nowrap overflow-x-auto pb-4 pt-1 px-2"
+        className="flex whitespace-nowrap overflow-x-auto pb-4 px-2"
         style={{ 
           msOverflowStyle: 'none', 
           scrollbarWidth: 'none',
@@ -178,9 +178,9 @@ async function BlogCategories({ activeTag }: { activeTag: string }) {
   const allTags = await fetchTags()
   
   return (
-    <div className="mb-10 mt-2 relative">
+    <div className="mb-8 relative">
       <div 
-        className="flex whitespace-nowrap overflow-x-auto pt-1 px-2"
+        className="flex whitespace-nowrap overflow-x-auto px-2"
         style={{ 
           msOverflowStyle: 'none', 
           scrollbarWidth: 'none',
@@ -200,7 +200,7 @@ async function BlogCategories({ activeTag }: { activeTag: string }) {
 
 function BlogPostListSkeleton() {
   return (
-    <div className="space-y-16">
+    <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {[1, 2, 3, 4, 5, 6].map((index) => (
           <div key={index} className="group flex flex-col h-full">
@@ -268,7 +268,7 @@ async function BlogPosts({ activeTag }: { activeTag: string }) {
   }
 
   return (
-    <div className="space-y-16">
+    <div>
       <BlogPostGrid posts={filteredPosts} />
     </div>
   )

@@ -19,7 +19,7 @@ export const TagLink: React.FC<TagLinkProps> = ({ tag, stopPropagation = false }
 
   return (
     <Link 
-      href={`/blog?tag=${tag}`} 
+      href={`/blog?tag=${tag}`}
       onClick={handleClick}
       className="inline-block px-3 py-1 bg-card border border-border/60 text-xs font-medium rounded-full text-muted-foreground hover:text-primary hover:border-primary/30 transition-colors"
     >

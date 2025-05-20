@@ -22,7 +22,7 @@ export default function PostPageClientLayout({ post, prevPost, nextPost }: PostP
   
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsLoaded(true);
+    setIsLoaded(true);
     }, 10);
     
     return () => clearTimeout(timer);
