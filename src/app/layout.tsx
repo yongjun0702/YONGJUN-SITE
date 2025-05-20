@@ -6,6 +6,8 @@ import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { AnimationProvider } from "@/components/providers/AnimationProvider";
+import { BlogProvider } from "@/components/providers/BlogProvider";
+import { BlogLoadingOverlay } from "@/components/blog/BlogLoadingOverlay";
 import { ClientHeader, ClientFooter } from "@/components/shared/ClientComponents";
 
 const pretendard = localFont({
@@ -132,13 +134,16 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
         >
-          <ClientHeader />
-          <AnimationProvider>
-            {children}
-          </AnimationProvider>
-          <ClientFooter />
-          <Analytics />
-          <SpeedInsights />
+          <BlogProvider>
+            <ClientHeader />
+            <AnimationProvider>
+              {children}
+            </AnimationProvider>
+            <ClientFooter />
+            <BlogLoadingOverlay />
+            <Analytics />
+            <SpeedInsights />
+          </BlogProvider>
         </ThemeProvider>
       </body>
     </html>

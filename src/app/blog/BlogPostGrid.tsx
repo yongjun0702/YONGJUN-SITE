@@ -4,14 +4,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { Post } from '@/types/blog'
 import { motion } from 'framer-motion'
-import { useRouter } from 'next/navigation'
 import { memo } from 'react'
+import { useBlog } from '@/components/providers/BlogProvider'
 
 export function BlogPostGrid({ posts }: { posts: Post[] }) {
-  const router = useRouter();
+  const { navigateToPost } = useBlog();
 
   const handleCardClick = (slug: string) => {
-    router.push(`/blog/${slug}`);
+    navigateToPost(slug);
   };
 
   const containerVariants = {

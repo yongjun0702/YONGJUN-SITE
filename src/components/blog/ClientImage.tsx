@@ -16,7 +16,7 @@ export function FeaturedImage({ src, alt, className = '' }: ImageProps) {
         src={src} 
         alt={alt} 
         fill 
-        loading="lazy"
+        priority={true}
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 800px, 1200px"
         className="object-cover"
       />

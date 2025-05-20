@@ -3,8 +3,12 @@ import { notFound } from 'next/navigation'
 import type { Metadata, ResolvingMetadata } from 'next'
 import type { Post } from '@/types/blog'
 import { Suspense } from 'react'
-import PostPageClientLayout from './PostPageClientLayout'
+import dynamic from 'next/dynamic'
 import { cache } from 'react'
+
+const PostPageClientLayout = dynamic(() => import('./PostPageClientLayout'), {
+  ssr: true
+})
 
 export const revalidate = 60;
 
