@@ -1,6 +1,6 @@
 'use client';
 
-import React, { memo } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import type { Post } from '@/types/blog';
@@ -9,6 +9,7 @@ import { MarkdownRenderer } from '@/components/markdown/MarkdownRenderer';
 import { AuthorProfile } from '@/components/blog/AuthorProfile';
 import { TagLink } from '@/components/blog/TagLink';
 import { BlogPostNavigation } from '@/components/blog/BlogPostNavigation';
+import { getAuthorProfile, type Profile } from '@/lib/profile';
 
 interface BlogPostAnimatedContentProps {
   post: Post;
@@ -52,6 +53,19 @@ export const BlogPostAnimatedContent: React.FC<BlogPostAnimatedContentProps> = (
   showNavigation = false,
   className = "w-full max-w-2xl" 
 }) => {
+  const [profile, setProfile] = useState<Profile | null>(null);
+
+  useEffect(() => {
+    async function fetchProfile() {
+      const data = await getAuthorProfile();
+      if (data) {
+        setProfile(data);
+      }
+    }
+
+    fetchProfile();
+  }, []);
+
   return (
     <motion.div 
       className={className}
@@ -95,23 +109,41 @@ export const BlogPostAnimatedContent: React.FC<BlogPostAnimatedContentProps> = (
             {post.title}
           </h1>
           
-          <div className="mt-8 flex items-center border-b border-gray-200 dark:border-gray-700 pb-8">
-            <div className="flex-shrink-0 h-12 w-12 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center">
-              <span className="text-sm font-medium text-gray-500 dark:text-gray-400">YJ</span>
+          {profile && (
+            <div className="mt-8 border-b border-gray-200 dark:border-gray-700 pb-8">
+              <Link href="/blog" className="flex items-center group">
+                <div className="flex-shrink-0 h-12 w-12 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-800 flex items-center justify-center">
+                  {profile.avatar_url ? (
+                    <img
+                      src={profile.avatar_url}
+                      alt={profile.name || 'Author'}
+                      width={48}
+                      height={48}
+                      className="object-cover"
+                    />
+                  ) : (
+                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                      {(profile.name || '').slice(0, 2).toUpperCase()}
+                    </span>
+                  )}
+                </div>
+                <div className="ml-4">
+                  <p className="text-base md:text-lg font-medium text-gray-900 dark:text-white group-hover:text-primary transition-colors">
+                    {profile.name}
+                  </p>
+                  <div className="flex text-sm md:text-base text-gray-500 dark:text-gray-400">
+                    <time dateTime={post.published_at || post.created_at}>
+                      {new Date(post.published_at || post.created_at).toLocaleDateString('ko-KR', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </time>
+                  </div>
+                </div>
+              </Link>
             </div>
-            <div className="ml-4">
-              <p className="text-base md:text-lg font-medium text-gray-900 dark:text-white">YONGJUN</p>
-              <div className="flex text-sm md:text-base text-gray-500 dark:text-gray-400">
-                <time dateTime={post.published_at || post.created_at}>
-                  {new Date(post.published_at || post.created_at).toLocaleDateString('ko-KR', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })}
-                </time>
-              </div>
-            </div>
-          </div>
+          )}
         </motion.header>
 
         <motion.div className="my-8" variants={itemVariants}>
@@ -119,12 +151,7 @@ export const BlogPostAnimatedContent: React.FC<BlogPostAnimatedContentProps> = (
         </motion.div>
         
         <motion.div variants={itemVariants}>
-          <AuthorProfile 
-            name="YONGJUN" 
-            description="프론트엔드 개발자 조용준입니다." 
-            initials="YJ" 
-            href="/blog"
-          />
+          {profile && <AuthorProfile href="/blog" profile={profile} />}
         </motion.div>
         
         {showNavigation && (prevPost || nextPost) && (

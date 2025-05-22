@@ -116,11 +116,13 @@ function BlogPostSkeletonContent() {
         <div className="h-9 sm:h-10 md:h-14 bg-gray-200 dark:bg-muted rounded-lg w-3/4 mb-4"></div>
         <div className="h-9 sm:h-10 bg-gray-200 dark:bg-muted rounded-lg w-1/2 mb-6"></div>
         
-        <div className="mt-8 flex items-center border-b border-gray-200 dark:border-gray-700 pb-8">
-          <div className="h-12 w-12 rounded-full bg-gray-200 dark:bg-muted flex items-center justify-center text-gray-400 dark:text-gray-600 text-sm font-medium">YJ</div>
-          <div className="ml-4 space-y-2">
-            <div className="h-5 w-24 bg-gray-200 dark:bg-muted rounded"></div>
-            <div className="h-4 w-32 bg-gray-200 dark:bg-muted rounded"></div>
+        <div className="block mt-8 border-b border-gray-200 dark:border-gray-700 pb-8">
+          <div className="flex items-center">
+            <div className="flex-shrink-0 h-12 w-12 rounded-full bg-gray-200 dark:bg-muted flex items-center justify-center"></div>
+            <div className="ml-4 space-y-2">
+              <div className="h-5 w-32 bg-gray-200 dark:bg-muted rounded"></div>
+              <div className="h-4 w-32 bg-gray-200 dark:bg-muted rounded"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -144,7 +146,7 @@ function BlogPostSkeletonContent() {
       
       <div className="border-t border-gray-200 dark:border-gray-700 pt-8 pb-4">
         <div className="flex items-center">
-          <div className="h-10 w-10 rounded-full bg-gray-200 dark:bg-muted flex items-center justify-center text-gray-400 dark:text-gray-600 text-sm font-medium">YJ</div>
+          <div className="h-10 w-10 rounded-full bg-gray-200 dark:bg-muted flex items-center justify-center"></div>
           <div className="ml-4 space-y-2">
             <div className="h-5 w-24 bg-gray-200 dark:bg-muted rounded"></div>
             <div className="h-4 w-48 bg-gray-200 dark:bg-muted rounded"></div>
