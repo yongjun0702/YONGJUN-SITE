@@ -71,7 +71,7 @@ const PostCard = memo(function PostCard({ post, onClick }: { post: Post, onClick
       className="group flex flex-col h-full cursor-pointer"
     >
       <div className="rounded-lg overflow-hidden border border-border bg-card h-full flex flex-col transition-all duration-200 hover:border-zinc-400/70 dark:hover:border-zinc-500/70 hover:shadow-sm">
-            <div className="relative aspect-[2/1] w-full overflow-hidden">
+            <div className="relative aspect-[37/20] w-full overflow-hidden">
               {post.og_image_url ? (
                 <Image
                   src={post.og_image_url}

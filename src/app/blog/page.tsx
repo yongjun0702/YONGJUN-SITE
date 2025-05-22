@@ -205,7 +205,7 @@ function BlogPostListSkeleton() {
         {[1, 2, 3, 4, 5, 6].map((index) => (
           <div key={index} className="group flex flex-col h-full">
             <div className="rounded-lg overflow-hidden border border-border h-full flex flex-col bg-card animate-pulse">
-              <div className="relative aspect-[2/1] w-full bg-muted"></div>
+              <div className="relative aspect-[37/20] w-full bg-muted"></div>
               <div className="p-4 flex flex-col h-full">
                 <div className="h-7 bg-muted rounded w-3/4 mb-3"></div>
                 

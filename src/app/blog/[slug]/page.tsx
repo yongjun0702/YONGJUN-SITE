@@ -19,7 +19,7 @@ function BlogPostSkeleton() {
         <div className="flex justify-center">
           <div className="w-full max-w-2xl">
             <div className="mb-6 h-6 w-40 bg-gray-200 dark:bg-gray-700 rounded"></div>
-            <div className="aspect-[2/1] w-full bg-gray-200 dark:bg-gray-700 rounded mb-8"></div>
+            <div className="aspect-[37/20] w-full bg-gray-200 dark:bg-gray-700 rounded mb-8"></div>
             <div className="mb-10">
               <div className="mb-4 flex flex-wrap gap-2">
                 <div className="h-5 px-2 py-0.5 bg-gray-200 dark:bg-gray-700 rounded-md border border-border" style={{ width: '60px' }}></div>

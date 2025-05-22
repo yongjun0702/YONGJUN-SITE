@@ -100,7 +100,7 @@ function BlogPostSkeletonContent() {
         <div className="h-4 w-32 bg-gray-200 dark:bg-muted rounded"></div>
       </div>
       
-      <div className="aspect-[2/1] w-full bg-gray-200 dark:bg-muted rounded-lg mb-6"></div>
+      <div className="aspect-[37/20] w-full bg-gray-200 dark:bg-muted rounded-lg mb-6"></div>
       
       <div className="mb-10">
         <div className="mb-4 flex flex-wrap gap-2">
@@ -113,7 +113,7 @@ function BlogPostSkeletonContent() {
           ))}
         </div>
         
-        <div className="h-9 sm:h-10 md:h-12 bg-gray-200 dark:bg-muted rounded-lg w-3/4 mb-4"></div>
+        <div className="h-9 sm:h-10 md:h-14 bg-gray-200 dark:bg-muted rounded-lg w-3/4 mb-4"></div>
         <div className="h-9 sm:h-10 bg-gray-200 dark:bg-muted rounded-lg w-1/2 mb-6"></div>
         
         <div className="mt-8 flex items-center border-b border-gray-200 dark:border-gray-700 pb-8">
@@ -132,14 +132,6 @@ function BlogPostSkeletonContent() {
           {[1, 0.9, 1, 0.95, 0.85].map((width, i) => (
             <div key={i} className="h-4 bg-gray-200 dark:bg-muted rounded" style={{ width: `${width * 100}%` }}></div>
           ))}
-        </div>
-        
-        <div className="rounded-md bg-gray-100 dark:bg-gray-900 p-4 border border-gray-200 dark:border-gray-700">
-          <div className="space-y-2">
-            {[0.95, 0.9, 0.97].map((width, i) => (
-              <div key={i} className="h-4 bg-gray-200 dark:bg-muted rounded" style={{ width: `${width * 100}%` }}></div>
-            ))}
-          </div>
         </div>
         
         <div className="h-5 bg-gray-200 dark:bg-muted rounded-lg w-3/5 mb-3"></div>

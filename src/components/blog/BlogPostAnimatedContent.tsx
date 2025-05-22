@@ -91,7 +91,7 @@ export const BlogPostAnimatedContent: React.FC<BlogPostAnimatedContentProps> = (
             </div>
           )}
           
-          <h1 className="text-3xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight leading-tight mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white tracking-tight leading-tight mb-6">
             {post.title}
           </h1>
           

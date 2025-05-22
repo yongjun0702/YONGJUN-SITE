@@ -11,7 +11,7 @@ interface ImageProps {
 
 export function FeaturedImage({ src, alt, className = '' }: ImageProps) {
   return (
-    <div className={`relative aspect-[2/1] w-full mb-6 overflow-hidden ${className}`}>
+    <div className={`relative aspect-[37/20] w-full mb-6 overflow-hidden ${className}`}>
       <Image 
         src={src} 
         alt={alt} 
