@@ -24,13 +24,13 @@ export function Header() {
   const isBlogPage = pathname?.startsWith('/blog')
 
   const handleScrollTo = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    event.preventDefault()
+    
     if (isBlogPage && href.startsWith('#')) {
-      event.preventDefault()
       window.location.href = '/' + href
       return
     }
 
-    event.preventDefault()
     if (href === '#') {
       window.scrollTo({
         top: 0,
@@ -42,21 +42,63 @@ export function Header() {
         element.scrollIntoView({ behavior: 'smooth' })
       }
     }
-    setIsMobileMenuOpen(false)
   }
 
   const mobileMenuVariants = {
     hidden: {
       opacity: 0,
-      maxHeight: 0,
+      height: 0,
+      transition: {
+        duration: 0.35,
+        ease: [0.4, 0, 0.2, 1]
+      }
     },
     visible: {
       opacity: 1,
-      maxHeight: '500px',
+      height: "auto",
+      transition: {
+        duration: 0.35,
+        ease: [0.4, 0, 0.2, 1],
+        staggerChildren: 0.05,
+        delayChildren: 0.1
+      }
     },
     exit: {
       opacity: 0,
-      maxHeight: 0,
+      height: 0,
+      transition: {
+        duration: 0.35,
+        ease: [0.4, 0, 0.2, 1],
+        staggerChildren: 0.08,
+        staggerDirection: -1,
+        delayChildren: 0.05
+      }
+    }
+  }
+
+  const menuItemVariants = {
+    hidden: { 
+      opacity: 0, 
+      x: -20,
+      y: 10
+    },
+    visible: { 
+      opacity: 1, 
+      x: 0,
+      y: 0,
+      transition: {
+        duration: 0.2,
+        ease: [0.4, 0, 0.2, 1]
+      }
+    },
+    exit: {
+      opacity: 0,
+      x: -20,
+      y: 10,
+      transition: {
+        duration: 0.25,
+        ease: [0.4, 0, 0.2, 1]
+      }
     }
   }
 
@@ -64,7 +106,7 @@ export function Header() {
 
   return (
     <header
-      className='fixed left-0 top-0 z-50 w-full border-b border-border/40 backdrop-blur-lg'
+      className='fixed left-0 top-0 z-[100] w-full border-b border-border/40 bg-background/70 backdrop-blur-lg'
     >
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
         <Link
@@ -120,36 +162,38 @@ export function Header() {
       <AnimatePresence mode="wait">
         {isMobileMenuOpen && (
           <motion.div
-            className="md:hidden backdrop-blur-lg overflow-hidden border-b border-border/40"
+            className="md:hidden overflow-hidden border-b border-border/40"
             initial="hidden"
             animate="visible"
             exit="exit"
             variants={mobileMenuVariants}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            <nav className="flex flex-col space-y-1 px-2 pb-3 pt-2 sm:px-3">
+            <nav className="flex flex-col space-y-1 px-2 pb-3 pt-2 sm:px-3 items-center">
               {mainNavItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={isBlogPage ? '/' + item.href : item.href}
-                  className="block rounded-md px-3 py-2 text-base font-medium text-muted-foreground hover:bg-accent hover:text-primary"
-                  onClick={(e) => !isBlogPage && handleScrollTo(e, item.href)}
-                >
-                  {item.name}
-                </Link>
+                <motion.div key={item.name} variants={menuItemVariants} className="w-full">
+                  <Link
+                    href={isBlogPage ? '/' + item.href : item.href}
+                    className="block rounded-md px-3 py-2 text-base font-medium text-muted-foreground hover:bg-accent hover:text-primary text-center"
+                    onClick={(e) => !isBlogPage && handleScrollTo(e, item.href)}
+                  >
+                    {item.name}
+                  </Link>
+                </motion.div>
               ))}
               {globalNavItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`block rounded-md px-3 py-2 text-base font-medium hover:bg-accent hover:text-primary ${
-                    pathname?.startsWith(item.href) 
-                      ? 'text-primary font-semibold' 
-                      : 'text-muted-foreground'
-                  }`}
-                >
-                  {item.name}
-                </Link>
+                <motion.div key={item.name} variants={menuItemVariants} className="w-full">
+                  <Link
+                    href={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={`block rounded-md px-3 py-2 text-base font-medium hover:bg-accent hover:text-primary text-center ${
+                      pathname?.startsWith(item.href) 
+                        ? 'text-primary font-semibold' 
+                        : 'text-muted-foreground'
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                </motion.div>
               ))}
             </nav>
           </motion.div>
