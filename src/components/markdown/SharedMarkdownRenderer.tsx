@@ -77,6 +77,12 @@ export const SharedMarkdownRenderer: React.FC<SharedMarkdownRendererProps> = ({
   
   const linkClass = "text-primary dark:text-primary font-medium hover:text-primary/80 dark:hover:text-primary/80 transition-colors";
 
+  const tableWrapperClass = "my-6 overflow-x-auto";
+  const tableClass = "w-full min-w-full border-collapse";
+  const tableContentWrapperClass = "bg-stone-50 dark:bg-neutral-800 p-1 sm:p-2 md:p-4";
+  const thClass = "px-3 md:px-4 py-2 md:py-3 text-left border-b-2 border-primary/40 dark:border-primary/40 font-semibold text-gray-800 dark:text-gray-100";
+  const tdClass = "px-3 md:px-4 py-2 md:py-3 text-left border-b border-neutral-200 dark:border-neutral-700/60 text-gray-600 dark:text-gray-300";
+
   return (
     <div className={containerClass}>
       <ReactMarkdown
@@ -138,6 +144,27 @@ export const SharedMarkdownRenderer: React.FC<SharedMarkdownRendererProps> = ({
               />
             ) : (
               <MarkdownImage src={src.toString()} alt={alt || ""} />
+            );
+          },
+          table: ({ node, ...props }) => (
+            <div className={tableWrapperClass}>
+              <div className={tableContentWrapperClass}>
+                <table className={tableClass} {...props} />
+              </div>
+            </div>
+          ),
+          th: ({ node, ...props }) => <th className={thClass} {...props} />,
+          td: ({ node, ...props }) => {
+            const { children } = props;
+            const hasStrong = React.Children.toArray(children).some(
+              (child: any) => child.type === 'strong' || (child.props?.node?.tagName === 'strong')
+            );
+            
+            return (
+              <td 
+                className={`${tdClass} ${hasStrong ? 'font-semibold text-gray-700 dark:text-gray-200' : ''}`}
+                {...props} 
+              />
             );
           },
         }}
