@@ -11,6 +11,8 @@ export async function getAuthorProfile(): Promise<Profile | null> {
   const { data, error } = await supabase
     .from('profiles')
     .select('*')
+    .order('created_at', { ascending: true })
+    .limit(1)
     .single();
 
   if (error) {
