@@ -1,9 +1,9 @@
-import { AnalyticsDataClient } from '@google-analytics/data';
+import { BetaAnalyticsDataClient } from '@google-analytics/data';
 
 const GA_PROPERTY_ID = process.env.GA_PROPERTY_ID;
 const PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'); 
 
-const analyticsDataClient = new AnalyticsDataClient({
+const analyticsDataClient = new BetaAnalyticsDataClient({
   credentials: {
     client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
     private_key: PRIVATE_KEY,
