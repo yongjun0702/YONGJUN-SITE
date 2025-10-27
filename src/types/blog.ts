@@ -10,4 +10,5 @@ export interface Post {
   published_at?: string;
   status: 'draft' | 'published' | 'archived';
   tags: string[];
+  view_count?: number;
 } 
