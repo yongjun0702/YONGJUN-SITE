@@ -3,25 +3,20 @@ import { AnalyticsDataClient } from '@google-analytics/data';
 const GA_PROPERTY_ID = process.env.GA_PROPERTY_ID;
 const PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'); 
 
-const analyticsDataClient = new BetaAnalyticsDataClient({
+const analyticsDataClient = new AnalyticsDataClient({
   credentials: {
     client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
     private_key: PRIVATE_KEY,
   },
 });
 
-/**
- * Google Analytics에서 지정된 페이지 경로의 총 조회수
- * @param pagePath 조회수를 가져올 페이지 경로
- * @returns 해당 경로의 총 조회수
- */
 export async function getPageViews(pagePath: string): Promise<number> {
   if (!GA_PROPERTY_ID) {
     console.error("GA_PROPERTY_ID is not set.");
     return 0;
   }
   
-  if (!analyticsDataClient || !process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || !PRIVATE_KEY) {
+  if (!process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || !PRIVATE_KEY) {
     console.error("Google Analytics authentication credentials are not fully set.");
     return 0;
   }
@@ -56,7 +51,6 @@ export async function getPageViews(pagePath: string): Promise<number> {
       },
     });
 
-    // 조회수 (screenPageViews) 값을 추출
     const viewCount = response.rows?.[0]?.metricValues?.[0]?.value;
 
     return viewCount ? parseInt(viewCount, 10) : 0;
