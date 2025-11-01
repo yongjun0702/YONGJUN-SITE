@@ -55,7 +55,7 @@ const fetchPosts = cache(async () => {
   
   const { data, error } = await supabase
     .from('posts')
-    .select('id, title, slug, created_at, meta_description, published_at, status, tags, og_image_url')
+    .select('id, title, slug, created_at, meta_description, published_at, status, tags, og_image_url, view_count')
     .eq('status', 'published')
     .order('published_at', { ascending: false })
     
