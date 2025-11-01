@@ -71,51 +71,59 @@ const PostCard = memo(function PostCard({ post, onClick }: { post: Post, onClick
       className="group flex flex-col h-full cursor-pointer"
     >
       <div className="rounded-lg overflow-hidden border border-border bg-card h-full flex flex-col transition-all duration-200 hover:border-zinc-400/70 dark:hover:border-zinc-500/70 hover:shadow-sm">
-            <div className="relative aspect-[37/20] w-full overflow-hidden">
-              {post.og_image_url ? (
-                <Image
-                  src={post.og_image_url}
-                  alt={post.title}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        <div className="relative aspect-[37/20] w-full overflow-hidden">
+          {post.og_image_url ? (
+            <Image
+              src={post.og_image_url}
+              alt={post.title}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover"
               loading="eager"
               priority={true}
-                />
-              ) : (
-                <div className="w-full h-full bg-muted flex items-center justify-center">
-                  <span className="text-muted-foreground text-lg">No Image</span>
-                </div>
-              )}
+            />
+          ) : (
+            <div className="w-full h-full bg-muted flex items-center justify-center">
+              <span className="text-muted-foreground text-lg">No Image</span>
             </div>
-            
-            <div className="p-4 flex-grow flex flex-col">
+          )}
+        </div>
+        
+        <div className="px-4 pt-4 pb-3 flex-grow flex flex-col">
           <h2 className="text-lg font-bold text-foreground mb-2 group-hover:text-foreground/80 dark:group-hover:text-foreground/90 transition-colors">
-                {post.title}
-              </h2>
-              
-              {post.meta_description && (
-                <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2 mb-3">
-                  {post.meta_description}
-                </p>
+            {post.title}
+          </h2>
+          
+          {post.meta_description && (
+            <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2 mb-3">
+              {post.meta_description}
+            </p>
+          )}
+          
+          {post.tags && post.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-3 mt-auto">
+              {post.tags.slice(0, 3).map(tag => (
+                <PostTag key={tag} tag={tag} />
+              ))}
+              {post.tags.length > 3 && (
+                <span className="text-xs text-muted-foreground self-center">+{post.tags.length - 3}</span>
               )}
-              
-              {post.tags && post.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2 mb-3 mt-auto">
-                  {post.tags.slice(0, 3).map(tag => (
-                    <PostTag key={tag} tag={tag} />
-                  ))}
-                  {post.tags.length > 3 && (
-                    <span className="text-xs text-muted-foreground self-center">+{post.tags.length - 3}</span>
-                  )}
-                </div>
-              )}
-              
-              <div className="text-xs text-muted-foreground">
-                {new Date(post.published_at || post.created_at).toLocaleDateString('ko-KR')}
-              </div>
             </div>
+          )}
+          
+          
+          <div className="flex justify-between items-center text-xs text-muted-foreground">
+            <div className="text-xs text-muted-foreground">
+              {new Date(post.published_at || post.created_at).toLocaleDateString('ko-KR')}
+            </div>
+            {post.view_count !== undefined && (
+                <span className="flex items-center ml-4">
+                    조회 {post.view_count.toLocaleString()}
+                </span>
+            )}
           </div>
-        </motion.div>
+        </div>
+      </div>
+    </motion.div>
   );
 });
