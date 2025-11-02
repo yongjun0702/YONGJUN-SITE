@@ -5,7 +5,7 @@ import { Suspense } from 'react'
 import { BlogPostGrid } from '@/app/blog/BlogPostGrid'
 import { Metadata } from 'next'
 import { cache } from 'react'
-import { PopularPosts } from '@/app/blog/PopularPosts'
+import { PopularPosts, PopularPostsSkeleton } from '@/app/blog/PopularPosts'
 
 export const revalidate = 60
 
@@ -134,7 +134,7 @@ export default async function BlogPage({
         </div>
       </div>
       
-      <Suspense fallback={<PopularPostsLoading />}>
+      <Suspense fallback={<PopularPostsSkeleton />}>
         <PopularPostsDataWrapper />
       </Suspense>
 
@@ -293,25 +293,6 @@ async function BlogPosts({ activeTag }: { activeTag: string }) {
   )
 }
 
-function PopularPostsLoading() {
-  return (
-    <section className="mb-8">
-      <div className="bg-card border border-border rounded-lg overflow-hidden animate-pulse">
-        <div className="p-4">
-          <div className="h-6 w-32 bg-muted rounded mb-3"></div>
-          <div className="flex items-center space-x-3">
-            <div className="h-6 w-4 bg-muted rounded"></div>
-            <div className="h-6 w-3/5 bg-muted rounded"></div>
-            <div className="h-5 w-16 bg-muted rounded-md ml-auto"></div>
-          </div>
-        </div>
-        <div className="w-full bg-card border-t border-border p-2 flex items-center justify-center">
-          <div className="h-6 w-20 bg-muted/50 rounded"></div>
-        </div>
-      </div>
-    </section>
-  )
-}
 
 async function PopularPostsDataWrapper() {
   const popularPosts = await fetchPopularPosts()
