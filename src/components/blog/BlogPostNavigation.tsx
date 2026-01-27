@@ -14,15 +14,15 @@ export interface BlogPostNavigationProps {
   className?: string;
 }
 
-export const BlogPostNavigation: React.FC<BlogPostNavigationProps> = ({ 
-  prevPost, 
+export const BlogPostNavigation: React.FC<BlogPostNavigationProps> = ({
+  prevPost,
   nextPost,
   className = ""
 }) => {
   if (!prevPost && !nextPost) return null;
 
   return (
-    <div className={`border-t border-gray-200 dark:border-gray-700 pt-10 w-full ${className}`}>
+    <div className={`border-t border-gray-200 dark:border-neutral-800 pt-10 w-full ${className}`}>
       <div className="grid grid-cols-2 gap-3">
         <div className="col-span-1">
           {prevPost && (
@@ -46,7 +46,7 @@ export const BlogPostNavigation: React.FC<BlogPostNavigationProps> = ({
             </Link>
           )}
         </div>
-        
+
         <div className="col-span-1">
           {nextPost && (
             <Link href={`/blog/${nextPost.slug}`} className="group block h-full">

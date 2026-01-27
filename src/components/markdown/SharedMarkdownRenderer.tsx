@@ -16,72 +16,72 @@ interface SharedMarkdownRendererProps {
 
 export function preprocessMarkdown(markdown: string): string {
   if (!markdown) return '';
-  
+
   const boldRegex = /\*\*([^*]+)\*\*/g;
   return markdown.replace(boldRegex, '<strong>$1</strong>');
 }
 
-export const SharedMarkdownRenderer: React.FC<SharedMarkdownRendererProps> = ({ 
+export const SharedMarkdownRenderer: React.FC<SharedMarkdownRendererProps> = ({
   content,
   isPreview = false
 }) => {
-  const containerClass = isPreview 
-    ? "prose prose-lg dark:prose-invert max-w-none" 
-    : "prose prose-lg md:prose-xl dark:prose-invert mx-auto";
-  
+  const containerClass = isPreview
+    ? "prose prose-lg dark:prose-invert max-w-none"
+    : "prose prose-lg md:prose-xl dark:prose-invert max-w-[700px]"; // max-w-[700px] for optimal reading width
+
   const h2Class = isPreview
     ? "mt-12 mb-4 scroll-mt-24 text-2xl font-bold"
-    : "text-2xl md:text-3xl font-bold mt-14 mb-5 scroll-mt-24";
-  
+    : "text-2xl md:text-3xl font-bold mt-16 mb-6 scroll-mt-28 tracking-tight text-gray-900 dark:text-gray-100";
+
   const h3Class = isPreview
     ? "mt-10 mb-3 scroll-mt-24 text-xl font-bold"
-    : "text-xl md:text-2xl font-bold mt-12 mb-4 scroll-mt-24";
-  
+    : "text-xl md:text-2xl font-semibold mt-12 mb-4 scroll-mt-28 tracking-tight text-gray-900 dark:text-gray-100";
+
   const h4Class = isPreview
     ? "mt-8 mb-2 scroll-mt-24 text-lg font-bold"
-    : "text-lg md:text-xl font-semibold mt-10 mb-3 scroll-mt-24";
-  
+    : "text-lg md:text-xl font-semibold mt-8 mb-3 scroll-mt-28 tracking-tight text-gray-800 dark:text-gray-200";
+
   const paragraphClass = isPreview
     ? "my-4"
-    : "text-base md:text-lg my-5 leading-relaxed";
-  
+    : "text-[17px] md:text-[18px] leading-[1.8] my-6 text-gray-800 dark:text-gray-300 break-keep selection:bg-primary/20";
+
   const blockquoteClass = "my-6 border-l-4 border-primary dark:border-primary pl-4 pr-2 py-3 bg-neutral-50 dark:bg-neutral-900 text-gray-600 dark:text-gray-300 text-sm md:text-base leading-tight";
-  
+
   const preClass = isPreview
     ? "my-6 p-4 bg-stone-50 dark:bg-neutral-800 overflow-x-auto"
     : "my-7 p-5 bg-stone-50 dark:bg-neutral-800 overflow-x-auto";
-  
+
   const inlineCodeClass = isPreview
     ? "px-1.5 py-0.5 bg-stone-50 dark:bg-neutral-800 text-sm text-gray-800 dark:text-gray-200"
     : "px-1.5 py-0.5 bg-stone-50 dark:bg-neutral-800 text-sm md:text-base text-gray-800 dark:text-gray-200";
-  
+
   const blockCodeClass = isPreview
     ? "text-sm text-gray-800 dark:text-gray-200"
     : "text-sm md:text-base text-gray-800 dark:text-gray-200";
-  
+
   const ulClass = isPreview
     ? "my-4 list-disc pl-6 space-y-2"
-    : "my-5 list-disc pl-6 space-y-2 text-base md:text-lg";
-  
+    : "my-6 list-disc pl-6 space-y-3 text-[17px] md:text-[18px] leading-[1.8] text-gray-800 dark:text-gray-300";
+
   const olClass = isPreview
     ? "my-4 list-decimal pl-6 space-y-2"
-    : "my-5 list-decimal pl-6 space-y-2 text-base md:text-lg";
-  
+    : "my-6 list-decimal pl-6 space-y-3 text-[17px] md:text-[18px] leading-[1.8] text-gray-800 dark:text-gray-300";
+
   const liClass = isPreview
     ? "pl-2"
-    : "pl-2 leading-tight";
-  
+    : "pl-2 marker:text-gray-400 dark:marker:text-gray-500";
+
   const imgClass = isPreview
     ? "my-8 mx-auto max-w-full h-auto"
-    : "my-8";
-  
-  const linkClass = "text-primary dark:text-primary font-medium hover:text-primary/80 dark:hover:text-primary/80 transition-colors";
+    : "my-10 rounded-xl shadow-md border border-gray-200 dark:border-neutral-800 mx-auto";
+
+  const linkClass = "text-primary dark:text-primary font-medium hover:text-primary/80 dark:hover:text-primary/80 transition-colors underline decoration-primary/40 underline-offset-4 hover:decoration-primary";
 
   const tableWrapperClass = "my-6 overflow-x-auto";
   const tableClass = "w-full min-w-full border-collapse";
   const tableContentWrapperClass = "bg-stone-50 dark:bg-neutral-800 p-1 sm:p-2 md:p-4";
   const thClass = "px-3 md:px-4 py-2 md:py-3 text-left border-b-2 border-primary/40 dark:border-primary/40 font-semibold text-gray-800 dark:text-gray-100";
-  const tdClass = "px-3 md:px-4 py-2 md:py-3 text-left border-b border-neutral-200 dark:border-neutral-700/60 text-gray-600 dark:text-gray-300";
+  const tdClass = "px-3 md:px-4 py-2 md:py-3 text-left border-b border-neutral-200 dark:border-neutral-800 text-gray-600 dark:text-gray-300";
 
   return (
     <div className={containerClass}>
@@ -89,24 +89,24 @@ export const SharedMarkdownRenderer: React.FC<SharedMarkdownRendererProps> = ({
         remarkPlugins={[remarkGfm, remarkBreaks]}
         rehypePlugins={[rehypeSlug, rehypeRaw]}
         components={{
-          h2: ({node, ...props}) => <h2 className={h2Class} {...props} />,
-          h3: ({node, ...props}) => <h3 className={h3Class} {...props} />,
-          h4: ({node, ...props}) => <h4 className={h4Class} {...props} />,
-          p: ({node, ...props}) => {
-            const hasImage = node?.children?.some((child: any) => 
+          h2: ({ node, ...props }) => <h2 className={h2Class} {...props} />,
+          h3: ({ node, ...props }) => <h3 className={h3Class} {...props} />,
+          h4: ({ node, ...props }) => <h4 className={h4Class} {...props} />,
+          p: ({ node, ...props }) => {
+            const hasImage = node?.children?.some((child: any) =>
               child.type === 'element' && child.tagName === 'img'
             );
-            
+
             if (hasImage) {
               return <>{props.children}</>;
             }
             return <p className={paragraphClass} {...props} />;
           },
-          blockquote: ({node, ...props}) => <blockquote className={blockquoteClass} {...props} />,
-          pre: ({node, ...props}) => (
+          blockquote: ({ node, ...props }) => <blockquote className={blockquoteClass} {...props} />,
+          pre: ({ node, ...props }) => (
             <pre className={preClass} {...props} />
           ),
-          code: ({node, ...props}) => {
+          code: ({ node, ...props }) => {
             const className = props.className || '';
             const isInline = !className.includes('language-');
             return isInline ? (
@@ -115,26 +115,26 @@ export const SharedMarkdownRenderer: React.FC<SharedMarkdownRendererProps> = ({
               <code className={blockCodeClass} {...props} />
             );
           },
-          ul: ({node, ...props}) => (
+          ul: ({ node, ...props }) => (
             <ul className={ulClass} {...props} />
           ),
-          ol: ({node, ...props}) => (
+          ol: ({ node, ...props }) => (
             <ol className={olClass} {...props} />
           ),
-          li: ({node, ...props}) => (
+          li: ({ node, ...props }) => (
             <li className={liClass} {...props} />
           ),
-          a: ({node, ...props}) => (
+          a: ({ node, ...props }) => (
             <a className={linkClass} {...props} />
           ),
-          img: ({node, ...props}) => {
+          img: ({ node, ...props }) => {
             const { src, alt } = props;
             if (!src) return null;
-            
+
             return isPreview ? (
-              <Image 
-                src={src.toString()} 
-                alt={alt || ""} 
+              <Image
+                src={src.toString()}
+                alt={alt || ""}
                 width={500}
                 height={300}
                 loading="lazy"
@@ -159,11 +159,11 @@ export const SharedMarkdownRenderer: React.FC<SharedMarkdownRendererProps> = ({
             const hasStrong = React.Children.toArray(children).some(
               (child: any) => child.type === 'strong' || (child.props?.node?.tagName === 'strong')
             );
-            
+
             return (
-              <td 
+              <td
                 className={`${tdClass} ${hasStrong ? 'font-semibold text-gray-700 dark:text-gray-200' : ''}`}
-                {...props} 
+                {...props}
               />
             );
           },

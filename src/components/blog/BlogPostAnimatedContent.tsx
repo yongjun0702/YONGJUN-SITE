@@ -17,14 +17,15 @@ interface BlogPostAnimatedContentProps {
   nextPost?: { title: string; slug: string } | null;
   showNavigation?: boolean;
   className?: string;
+  beforeContent?: React.ReactNode;
 }
 
 export const containerVariants = {
   hidden: { opacity: 1 },
-  visible: { 
-    opacity: 1, 
-    transition: { 
-      staggerChildren: 0.02, 
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.02,
       delayChildren: 0
     }
   }
@@ -32,13 +33,13 @@ export const containerVariants = {
 
 export const itemVariants = {
   hidden: { opacity: 0, y: 5 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { 
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
       duration: 0.15,
       ease: [0.25, 0.1, 0.25, 1] as const
-    } 
+    }
   }
 };
 
@@ -46,12 +47,13 @@ const MemoizedMarkdownRenderer = memo(function OptimizedMarkdownRenderer({ conte
   return <MarkdownRenderer content={content} />;
 });
 
-export const BlogPostAnimatedContent: React.FC<BlogPostAnimatedContentProps> = ({ 
-  post, 
+export const BlogPostAnimatedContent: React.FC<BlogPostAnimatedContentProps> = ({
+  post,
   prevPost,
   nextPost,
   showNavigation = false,
-  className = "w-full max-w-2xl" 
+  className = "w-full max-w-2xl",
+  beforeContent
 }) => {
   const [profile, setProfile] = useState<Profile | null>(null);
 
@@ -67,7 +69,7 @@ export const BlogPostAnimatedContent: React.FC<BlogPostAnimatedContentProps> = (
   }, []);
 
   return (
-    <motion.div 
+    <motion.div
       className={className}
       initial="hidden"
       animate="visible"
@@ -75,8 +77,8 @@ export const BlogPostAnimatedContent: React.FC<BlogPostAnimatedContentProps> = (
     >
       <article>
         <motion.div variants={itemVariants}>
-          <Link 
-            href="/blog" 
+          <Link
+            href="/blog"
             className="inline-flex items-center mb-6 text-sm font-medium text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary"
           >
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -85,18 +87,18 @@ export const BlogPostAnimatedContent: React.FC<BlogPostAnimatedContentProps> = (
             블로그로 돌아가기
           </Link>
         </motion.div>
-        
+
         {post.og_image_url && (
           <motion.div variants={itemVariants}>
             <FeaturedImage src={post.og_image_url} alt={post.title} />
           </motion.div>
         )}
-        
+
         <motion.header className="mb-10" variants={itemVariants}>
           {post.tags && Array.isArray(post.tags) && post.tags.length > 0 && (
             <div className="mb-4 flex flex-wrap gap-2">
               {post.tags.map((tag) => (
-                <TagLink 
+                <TagLink
                   key={tag}
                   tag={tag}
                   stopPropagation
@@ -104,13 +106,13 @@ export const BlogPostAnimatedContent: React.FC<BlogPostAnimatedContentProps> = (
               ))}
             </div>
           )}
-          
+
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white tracking-tight leading-tight mb-6">
             {post.title}
           </h1>
-          
+
           {profile && (
-            <div className="mt-8 border-b border-gray-200 dark:border-gray-700 pb-8">
+            <div className="mt-8 border-b border-gray-200 dark:border-neutral-800 pb-8">
               <Link href="/blog" className="flex items-center group">
                 <div className="flex-shrink-0 h-12 w-12 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-800 flex items-center justify-center">
                   {profile.avatar_url ? (
@@ -147,18 +149,23 @@ export const BlogPostAnimatedContent: React.FC<BlogPostAnimatedContentProps> = (
         </motion.header>
 
         <motion.div className="my-8" variants={itemVariants}>
+          {beforeContent && (
+            <div className="mb-10">
+              {beforeContent}
+            </div>
+          )}
           <MemoizedMarkdownRenderer content={post.content || ''} />
         </motion.div>
-        
+
         <motion.div variants={itemVariants}>
           {profile && <AuthorProfile href="/blog" profile={profile} />}
         </motion.div>
-        
+
         {showNavigation && (prevPost || nextPost) && (
           <motion.div variants={itemVariants}>
-            <BlogPostNavigation 
-              prevPost={prevPost || null} 
-              nextPost={nextPost || null} 
+            <BlogPostNavigation
+              prevPost={prevPost || null}
+              nextPost={nextPost || null}
             />
           </motion.div>
         )}

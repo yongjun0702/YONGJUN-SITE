@@ -6,9 +6,10 @@ import { useEffect, useState } from 'react';
 
 interface TableOfContentsWrapperProps {
   postContent: string;
+  isMobile?: boolean; // Add optional prop
 }
 
-export default function TableOfContentsWrapper({ postContent }: TableOfContentsWrapperProps) {
+export default function TableOfContentsWrapper({ postContent, isMobile = false }: TableOfContentsWrapperProps) {
   const [headings, setHeadings] = useState<TocEntry[]>([]);
 
   useEffect(() => {
@@ -21,5 +22,5 @@ export default function TableOfContentsWrapper({ postContent }: TableOfContentsW
     }
   }, [postContent]);
 
-  return <TableOfContents headings={headings} />;
+  return <TableOfContents headings={headings} isMobile={isMobile} />;
 } 
