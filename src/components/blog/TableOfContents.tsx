@@ -12,85 +12,59 @@ interface TocEntry {
 
 interface TableOfContentsProps {
   headings: TocEntry[]
+  isMobile?: boolean
 }
 
-export default function TableOfContents({ headings, isMobile = false }: TableOfContentsProps & { isMobile?: boolean }) {
+export default function TableOfContents({ headings, isMobile = false }: TableOfContentsProps) {
   const [activeId, setActiveId] = useState<string>('')
   const [isExpanded, setIsExpanded] = useState(true)
+
+  const handleScrollTo = (id: string) => {
+    const element = document.getElementById(id)
+    if (element) {
+      const offset = 100
+      const bodyRect = document.body.getBoundingClientRect().top
+      const elementRect = element.getBoundingClientRect().top
+      const elementPosition = elementRect - bodyRect
+      const offsetPosition = elementPosition - offset
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      })
+
+      setActiveId(id)
+      history.pushState(null, '', `#${id}`)
+    }
+  }
 
   useEffect(() => {
     if (headings.length === 0) return
 
     const observer = new IntersectionObserver(
       (entries) => {
-        const visibleHeadings = entries
-          .filter(entry => entry.isIntersecting)
-          .map(entry => ({
-            id: entry.target.id,
-            position: entry.boundingClientRect.top
-          }));
-
-        if (visibleHeadings.length === 0) return;
-
-        visibleHeadings.sort((a, b) => Math.abs(a.position) - Math.abs(b.position));
-        setActiveId(visibleHeadings[0].id);
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveId(entry.target.id)
+          }
+        })
       },
       {
-        rootMargin: '-5% 0% -70% 0%',
-        threshold: [0, 0.1, 0.5, 1]
+        rootMargin: '-10% 0% -70% 0%',
+        threshold: 0.1
       }
-    );
+    )
 
-    const observeElements = () => {
-      headings.forEach(heading => {
-        const element = document.getElementById(heading.id);
-        if (element) observer.observe(element);
-      });
-    };
+    headings.forEach((heading) => {
+      const element = document.getElementById(heading.id)
+      if (element) observer.observe(element)
+    })
 
-    observeElements();
-    setTimeout(observeElements, 200);
-
-    if (headings.length > 0 && !activeId) {
-      setActiveId(headings[0].id);
-    }
-
-    return () => observer.disconnect();
-  }, [headings, activeId]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (headings.length === 0) return;
-
-      let closestHeading = null;
-      let closestDistance = Infinity;
-
-      for (const heading of headings) {
-        const element = document.getElementById(heading.id);
-        if (!element) continue;
-
-        const rect = element.getBoundingClientRect();
-        const distance = Math.abs(rect.top - 100);
-
-        if (distance < closestDistance) {
-          closestDistance = distance;
-          closestHeading = heading;
-        }
-      }
-
-      if (closestHeading && closestHeading.id !== activeId) {
-        setActiveId(closestHeading.id);
-      }
-    };
-
-    if (!isMobile) {
-      window.addEventListener('scroll', handleScroll, { passive: true });
-      return () => window.removeEventListener('scroll', handleScroll);
-    }
-  }, [headings, activeId, isMobile]);
+    return () => observer.disconnect()
+  }, [headings])
 
   if (headings.length === 0) {
-    if (isMobile) return null;
+    if (isMobile) return null
     return (
       <nav className="text-sm w-64 ml-4 max-h-[calc(100vh-8rem)] overflow-y-auto">
         <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">목차</h3>
@@ -121,19 +95,20 @@ export default function TableOfContents({ headings, isMobile = false }: TableOfC
               className="overflow-hidden"
             >
               <ul className="px-4 pb-4 space-y-1 pt-2">
-                {headings.map(heading => (
+                {headings.map((heading) => (
                   <li key={heading.id}>
-                    <a
-                      href={`#${heading.id}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        document.getElementById(heading.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        setIsExpanded(false);
-                      }}
-                      className={`block py-1.5 text-sm ${heading.level === 3 ? 'pl-3' : heading.level === 4 ? 'pl-6' : ''} text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors`}
+                    <button
+                      onClick={() => handleScrollTo(heading.id)}
+                      className={`block w-full text-left py-1.5 text-sm ${
+                        heading.level === 3 ? 'pl-3' : heading.level === 4 ? 'pl-6' : ''
+                      } ${
+                        activeId === heading.id 
+                        ? 'text-gray-900 dark:text-white font-bold' 
+                        : 'text-gray-600 dark:text-gray-400'
+                      } hover:text-gray-900 dark:hover:text-gray-200 transition-colors`}
                     >
                       {heading.text}
-                    </a>
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -141,43 +116,35 @@ export default function TableOfContents({ headings, isMobile = false }: TableOfC
           )}
         </AnimatePresence>
       </div>
-    );
+    )
   }
 
   return (
-    <nav className="text-sm w-64 ml-4 max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar pl-1">
+    <nav className="text-sm w-64 ml-4 sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar pl-1">
       <h3 className="text-sm font-semibold mb-4 text-gray-900 dark:text-gray-100 uppercase tracking-wider">목차</h3>
       <ul className="space-y-0.5">
-        {headings.map(heading => {
-          const isActive = activeId === heading.id;
-
-          // Indentation based on level
-          const paddingLeft = heading.level === 2 ? 'pl-4' : heading.level === 3 ? 'pl-8' : 'pl-12';
+        {headings.map((heading) => {
+          const isActive = activeId === heading.id
+          const paddingLeft = heading.level === 2 ? 'pl-4' : heading.level === 3 ? 'pl-8' : 'pl-12'
 
           return (
             <li key={heading.id}>
-              <a
-                href={`#${heading.id}`}
+              <button
+                onClick={() => handleScrollTo(heading.id)}
                 className={`
-                  block py-1.5 transition-all duration-200 text-sm -ml-[1px] border-l-2
+                  block w-full text-left py-1.5 transition-all duration-200 text-sm -ml-[1px] border-l-2
                   ${paddingLeft}
                   ${isActive
                     ? 'border-gray-900 dark:border-gray-100 text-gray-900 dark:text-gray-100 font-semibold transform scale-105 origin-left'
                     : 'border-transparent text-gray-500 hover:text-gray-800 dark:text-gray-500 dark:hover:text-gray-300'}
                 `}
-                onClick={(e) => {
-                  e.preventDefault()
-                  document.getElementById(heading.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                  setActiveId(heading.id);
-                  history.pushState(null, '', `#${heading.id}`);
-                }}
               >
                 {heading.text}
-              </a>
+              </button>
             </li>
-          );
+          )
         })}
       </ul>
     </nav>
   )
-} 
+}
