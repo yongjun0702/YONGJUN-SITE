@@ -6,7 +6,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-pretendard);
   --font-mono: var(--font-geist-mono);
   --color-ring: var(--ring);
   --color-input: var(--input);
@@ -98,8 +98,34 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    font-family: var(--font-pretendard), ui-sans-serif, system-ui, sans-serif;
+  }
+
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-pretendard), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  button,
+  input,
+  textarea,
+  select,
+  table,
+  th,
+  td {
+    font-family: var(--font-pretendard), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  .blog-typography,
+  .blog-typography *:not(pre):not(code):not(kbd):not(samp),
+  .prose,
+  .prose *:not(pre):not(code):not(kbd):not(samp) {
+    font-family: var(--font-pretendard), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  .prose :where(p, li, blockquote, table, thead, tbody, tr, th, td, caption, a, b, strong, em, small, figcaption):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    font-family: inherit;
   }
 
   .prose h1,
@@ -108,7 +134,10 @@
   .prose h4,
   .prose h5,
   .prose h6 {
-    font-size: revert;
-    font-weight: revert;
+    font-family: inherit;
+  }
+
+  .prose :where(strong, b):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    font-weight: 700;
   }
 }

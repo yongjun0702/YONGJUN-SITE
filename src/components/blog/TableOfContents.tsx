@@ -66,19 +66,19 @@ export default function TableOfContents({ headings, isMobile = false }: TableOfC
   if (headings.length === 0) {
     if (isMobile) return null
     return (
-      <nav className="text-sm w-64 ml-4 max-h-[calc(100vh-8rem)] overflow-y-auto">
-        <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">목차</h3>
-        <p className="text-gray-500 dark:text-gray-400">이 게시물에는 목차가 없습니다.</p>
+      <nav className="font-sans text-sm w-64 ml-4 max-h-[calc(100vh-8rem)] overflow-y-auto">
+        <h3 className="font-sans text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">목차</h3>
+        <p className="font-sans text-gray-500 dark:text-gray-400">이 게시물에는 목차가 없습니다.</p>
       </nav>
     )
   }
 
   if (isMobile) {
     return (
-      <div className="mb-8 border border-gray-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 border-l-4 border-l-gray-900 dark:border-l-white">
+      <div className="font-sans mb-8 border border-gray-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 border-l-4 border-l-gray-900 dark:border-l-white">
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full px-4 py-3 flex justify-between items-center text-left font-semibold text-gray-800 dark:text-gray-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+          className="font-sans w-full px-4 py-3 flex justify-between items-center text-left font-bold text-gray-800 dark:text-gray-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
         >
           <span>목차</span>
           <ChevronDown
@@ -99,8 +99,8 @@ export default function TableOfContents({ headings, isMobile = false }: TableOfC
                   <li key={heading.id}>
                     <button
                       onClick={() => handleScrollTo(heading.id)}
-                      className={`block w-full text-left py-1.5 text-sm ${
-                        heading.level === 3 ? 'pl-3' : heading.level === 4 ? 'pl-6' : ''
+                      className={`font-sans block w-full text-left py-1.5 text-sm leading-relaxed break-keep ${
+                        heading.level === 3 ? 'pl-3 font-medium' : heading.level === 4 ? 'pl-6 font-normal' : 'font-semibold'
                       } ${
                         activeId === heading.id 
                         ? 'text-gray-900 dark:text-white font-bold' 
@@ -120,8 +120,8 @@ export default function TableOfContents({ headings, isMobile = false }: TableOfC
   }
 
   return (
-    <nav className="text-sm w-64 ml-4 sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar pl-1">
-      <h3 className="text-sm font-semibold mb-4 text-gray-900 dark:text-gray-100 uppercase tracking-wider">목차</h3>
+    <nav className="font-sans text-sm w-64 ml-4 sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar pl-1">
+      <h3 className="font-sans text-sm font-bold mb-4 text-gray-900 dark:text-gray-100 uppercase tracking-wider">목차</h3>
       <ul className="space-y-0.5">
         {headings.map((heading) => {
           const isActive = activeId === heading.id
@@ -132,11 +132,12 @@ export default function TableOfContents({ headings, isMobile = false }: TableOfC
               <button
                 onClick={() => handleScrollTo(heading.id)}
                 className={`
-                  block w-full text-left py-1.5 transition-all duration-200 text-sm -ml-[1px] border-l-2
+                  font-sans block w-full text-left py-1.5 transition-all duration-200 text-sm leading-relaxed -ml-[1px] border-l-2 break-keep
                   ${paddingLeft}
                   ${isActive
                     ? 'border-gray-900 dark:border-gray-100 text-gray-900 dark:text-gray-100 font-semibold transform scale-105 origin-left'
-                    : 'border-transparent text-gray-500 hover:text-gray-800 dark:text-gray-500 dark:hover:text-gray-300'}
+                    : `border-transparent text-gray-500 hover:text-gray-800 dark:text-gray-500 dark:hover:text-gray-300 ${heading.level === 2 ? 'font-medium' : 'font-normal'}`
+                  }
                 `}
               >
                 {heading.text}

@@ -107,7 +107,7 @@ export const BlogPostAnimatedContent: React.FC<BlogPostAnimatedContentProps> = (
             </div>
           )}
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white tracking-tight leading-tight mb-6">
+          <h1 className="font-sans text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight leading-tight mb-6">
             {post.title}
           </h1>
 
@@ -130,7 +130,7 @@ export const BlogPostAnimatedContent: React.FC<BlogPostAnimatedContentProps> = (
                   )}
                 </div>
                 <div className="ml-4">
-                  <p className="text-base md:text-lg font-medium text-gray-900 dark:text-white group-hover:text-primary transition-colors">
+                  <p className="font-sans text-base md:text-lg font-semibold text-gray-900 dark:text-white group-hover:text-primary transition-colors">
                     {profile.name}
                   </p>
                   <div className="flex text-sm md:text-base text-gray-500 dark:text-gray-400">

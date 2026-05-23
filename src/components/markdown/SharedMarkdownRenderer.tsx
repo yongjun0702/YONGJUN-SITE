@@ -26,26 +26,38 @@ export const SharedMarkdownRenderer: React.FC<SharedMarkdownRendererProps> = ({
   isPreview = false
 }) => {
   const containerClass = isPreview
-    ? "prose prose-lg dark:prose-invert max-w-none"
-    : "prose prose-lg md:prose-xl dark:prose-invert max-w-[700px]"; // max-w-[700px] for optimal reading width
+    ? "blog-typography prose prose-lg dark:prose-invert max-w-none font-sans"
+    : "blog-typography prose prose-lg md:prose-xl dark:prose-invert max-w-[700px] font-sans"; // max-w-[700px] for optimal reading width
+
+  const h1Class = isPreview
+    ? "font-sans mt-14 mb-5 scroll-mt-24 text-3xl font-extrabold tracking-tight leading-tight"
+    : "font-sans text-3xl md:text-4xl font-extrabold mt-16 mb-7 scroll-mt-28 tracking-tight leading-tight text-gray-950 dark:text-white";
 
   const h2Class = isPreview
-    ? "mt-12 mb-4 scroll-mt-24 text-2xl font-bold"
-    : "text-2xl md:text-3xl font-bold mt-16 mb-6 scroll-mt-28 tracking-tight text-gray-900 dark:text-gray-100";
+    ? "font-sans mt-12 mb-4 scroll-mt-24 text-2xl font-bold tracking-tight leading-tight"
+    : "font-sans text-2xl md:text-3xl font-bold mt-16 mb-6 scroll-mt-28 tracking-tight leading-tight text-gray-900 dark:text-gray-100";
 
   const h3Class = isPreview
-    ? "mt-10 mb-3 scroll-mt-24 text-xl font-bold"
-    : "text-xl md:text-2xl font-semibold mt-12 mb-4 scroll-mt-28 tracking-tight text-gray-900 dark:text-gray-100";
+    ? "font-sans mt-10 mb-3 scroll-mt-24 text-xl font-semibold tracking-tight leading-snug"
+    : "font-sans text-xl md:text-2xl font-semibold mt-12 mb-4 scroll-mt-28 tracking-tight leading-snug text-gray-900 dark:text-gray-100";
 
   const h4Class = isPreview
-    ? "mt-8 mb-2 scroll-mt-24 text-lg font-bold"
-    : "text-lg md:text-xl font-semibold mt-8 mb-3 scroll-mt-28 tracking-tight text-gray-800 dark:text-gray-200";
+    ? "font-sans mt-8 mb-2 scroll-mt-24 text-lg font-semibold tracking-tight leading-snug"
+    : "font-sans text-lg md:text-xl font-semibold mt-8 mb-3 scroll-mt-28 tracking-tight leading-snug text-gray-800 dark:text-gray-200";
+
+  const h5Class = isPreview
+    ? "font-sans mt-6 mb-2 scroll-mt-24 text-base font-semibold tracking-tight leading-snug"
+    : "font-sans text-base md:text-lg font-semibold mt-7 mb-2 scroll-mt-28 tracking-tight leading-snug text-gray-800 dark:text-gray-200";
+
+  const h6Class = isPreview
+    ? "font-sans mt-5 mb-2 scroll-mt-24 text-sm font-semibold tracking-tight leading-snug"
+    : "font-sans text-sm md:text-base font-semibold mt-6 mb-2 scroll-mt-28 tracking-tight leading-snug text-gray-700 dark:text-gray-300";
 
   const paragraphClass = isPreview
-    ? "my-4"
-    : "text-[17px] md:text-[18px] leading-[1.8] my-6 text-gray-800 dark:text-gray-300 break-keep selection:bg-primary/20";
+    ? "font-sans my-4"
+    : "font-sans text-[17px] md:text-[18px] leading-[1.8] my-6 text-gray-800 dark:text-gray-300 break-keep selection:bg-primary/20";
 
-  const blockquoteClass = "my-6 border-l-4 border-primary dark:border-primary pl-4 pr-2 py-3 bg-neutral-50 dark:bg-neutral-900 text-gray-600 dark:text-gray-300 text-sm md:text-base leading-tight";
+  const blockquoteClass = "font-sans my-6 border-l-4 border-primary dark:border-primary pl-4 pr-2 py-3 bg-neutral-50 dark:bg-neutral-900 text-gray-600 dark:text-gray-300 text-sm md:text-base leading-tight";
 
   const preClass = isPreview
     ? "my-6 p-4 bg-stone-50 dark:bg-neutral-800 overflow-x-auto"
@@ -60,28 +72,30 @@ export const SharedMarkdownRenderer: React.FC<SharedMarkdownRendererProps> = ({
     : "text-sm md:text-base text-gray-800 dark:text-gray-200";
 
   const ulClass = isPreview
-    ? "my-4 list-disc pl-6 space-y-2"
-    : "my-6 list-disc pl-6 space-y-3 text-[17px] md:text-[18px] leading-[1.8] text-gray-800 dark:text-gray-300";
+    ? "font-sans my-4 list-disc pl-6 space-y-2"
+    : "font-sans my-6 list-disc pl-6 space-y-3 text-[17px] md:text-[18px] leading-[1.8] text-gray-800 dark:text-gray-300";
 
   const olClass = isPreview
-    ? "my-4 list-decimal pl-6 space-y-2"
-    : "my-6 list-decimal pl-6 space-y-3 text-[17px] md:text-[18px] leading-[1.8] text-gray-800 dark:text-gray-300";
+    ? "font-sans my-4 list-decimal pl-6 space-y-2"
+    : "font-sans my-6 list-decimal pl-6 space-y-3 text-[17px] md:text-[18px] leading-[1.8] text-gray-800 dark:text-gray-300";
 
   const liClass = isPreview
-    ? "pl-2"
-    : "pl-2 marker:text-gray-400 dark:marker:text-gray-500";
+    ? "font-sans pl-2"
+    : "font-sans pl-2 marker:text-gray-400 dark:marker:text-gray-500";
 
   const imgClass = isPreview
     ? "my-8 mx-auto max-w-full h-auto"
     : "my-10 rounded-xl shadow-md border border-gray-200 dark:border-neutral-800 mx-auto";
 
-  const linkClass = "text-primary dark:text-primary font-medium hover:text-primary/80 dark:hover:text-primary/80 transition-colors underline decoration-primary/40 underline-offset-4 hover:decoration-primary";
+  const strongClass = "font-sans font-bold text-gray-900 dark:text-gray-100";
 
-  const tableWrapperClass = "my-6 overflow-x-auto";
-  const tableClass = "w-full min-w-full border-collapse";
+  const linkClass = "font-sans text-primary dark:text-primary font-medium hover:text-primary/80 dark:hover:text-primary/80 transition-colors underline decoration-primary/40 underline-offset-4 hover:decoration-primary";
+
+  const tableWrapperClass = "my-6 overflow-x-auto font-sans";
+  const tableClass = "w-full min-w-full border-collapse font-sans text-sm md:text-base";
   const tableContentWrapperClass = "bg-stone-50 dark:bg-neutral-800 p-1 sm:p-2 md:p-4";
-  const thClass = "px-3 md:px-4 py-2 md:py-3 text-left border-b-2 border-primary/40 dark:border-primary/40 font-semibold text-gray-800 dark:text-gray-100";
-  const tdClass = "px-3 md:px-4 py-2 md:py-3 text-left border-b border-neutral-200 dark:border-neutral-800 text-gray-600 dark:text-gray-300";
+  const thClass = "font-sans px-3 md:px-4 py-2 md:py-3 text-left border-b-2 border-primary/40 dark:border-primary/40 font-bold text-gray-800 dark:text-gray-100 leading-relaxed";
+  const tdClass = "font-sans px-3 md:px-4 py-2 md:py-3 text-left border-b border-neutral-200 dark:border-neutral-800 text-gray-600 dark:text-gray-300 leading-relaxed";
 
   return (
     <div className={containerClass}>
@@ -89,9 +103,12 @@ export const SharedMarkdownRenderer: React.FC<SharedMarkdownRendererProps> = ({
         remarkPlugins={[remarkGfm, remarkBreaks]}
         rehypePlugins={[rehypeSlug, rehypeRaw]}
         components={{
+          h1: ({ node, ...props }) => <h1 className={h1Class} {...props} />,
           h2: ({ node, ...props }) => <h2 className={h2Class} {...props} />,
           h3: ({ node, ...props }) => <h3 className={h3Class} {...props} />,
           h4: ({ node, ...props }) => <h4 className={h4Class} {...props} />,
+          h5: ({ node, ...props }) => <h5 className={h5Class} {...props} />,
+          h6: ({ node, ...props }) => <h6 className={h6Class} {...props} />,
           p: ({ node, ...props }) => {
             const hasImage = node?.children?.some((child: any) =>
               child.type === 'element' && child.tagName === 'img'
@@ -123,6 +140,9 @@ export const SharedMarkdownRenderer: React.FC<SharedMarkdownRendererProps> = ({
           ),
           li: ({ node, ...props }) => (
             <li className={liClass} {...props} />
+          ),
+          strong: ({ node, ...props }) => (
+            <strong className={strongClass} {...props} />
           ),
           a: ({ node, ...props }) => (
             <a className={linkClass} {...props} />
@@ -173,4 +193,4 @@ export const SharedMarkdownRenderer: React.FC<SharedMarkdownRendererProps> = ({
       </ReactMarkdown>
     </div>
   )
-} 
+}

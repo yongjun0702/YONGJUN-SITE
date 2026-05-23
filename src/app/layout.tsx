@@ -101,7 +101,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" suppressHydrationWarning>
+    <html lang="ko" className={pretendard.variable} suppressHydrationWarning>
       <head>
         {GA_MEASUREMENT_ID && (
           <>
@@ -127,7 +127,7 @@ export default function RootLayout({
         )}
       </head>
       <body
-        className={`min-h-screen bg-background font-sans antialiased ${pretendard.variable}`}
+        className="min-h-screen bg-background font-sans antialiased"
       >
         <ThemeProvider
           attribute="class"
