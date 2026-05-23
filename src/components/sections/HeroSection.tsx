@@ -111,7 +111,7 @@ export function HeroSection() {
 
         <motion.h1
           variants={textItemAnimation}
-          className="text-6xl font-black tracking-tight text-foreground sm:text-7xl md:text-8xl lg:text-8xl"
+          className="text-6xl font-bold text-foreground sm:text-7xl md:text-8xl lg:text-8xl"
         >
           {heroContent.name}
         </motion.h1>
